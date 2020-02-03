@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Primos {
     private int x,y,n=0;
-    private long executionTime;
+    private long executionTime; // @Ejercicio1
 
     public Primos(int x, int y){
         this.x=x;
@@ -25,7 +25,7 @@ public class Primos {
     }
 
     public void calcular(){
-    	long t0 = (new Date()).getTime();
+    	long t0 = (new Date()).getTime();// @Ejercicio1
         for (int i=x; i<=y; i++)
         {
             if(esPrimo(i))
@@ -33,8 +33,8 @@ public class Primos {
                 n++;
             }
         }
-        long t1 = (new Date()).getTime();
-        this.executionTime = (t1-t0);
+        long t1 = (new Date()).getTime();// @Ejercicio1
+        this.executionTime = (t1-t0);// @Ejercicio1
         System.out.println("Tiempo en calcular los primos: "+ (t1-t0) +" miliseg.");
     }
 

@@ -19,8 +19,9 @@ public class CuantosPrimos1 {
         p5.calcular();
 
         int n = p1.cuantos() + p2.cuantos() + p3.cuantos() + p4.cuantos() + p5.cuantos();
-        long tExec = p1.getExecutionTime() + p2.getExecutionTime() + p3.getExecutionTime() + p4.getExecutionTime() + p5.getExecutionTime();
-        System.out.println("Suma de los tiempos de ejecución: " + tExec);
+        long tExec = p1.getExecutionTime() + p2.getExecutionTime() + p3.getExecutionTime() + p4.getExecutionTime() + p5.getExecutionTime(); // @Ejercicio1
+        System.out.println("Suma de los tiempos de ejecución: " + tExec); // @Ejercicio1
+        
         long t1 = (new Date()).getTime(); //t1=instante de final de los cálculos
         System.out.println("Número de primos menores que 10.000.000: "+ n +" calculado en "+ (t1-t0) +" miliseg.");
 
