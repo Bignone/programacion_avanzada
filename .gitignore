@@ -1,6 +1,10 @@
 # Compiled class file
 *.class
 
+# Developer files
+gitOn.sh
+gitOff.sh
+
 # Log file
 *.log
 
