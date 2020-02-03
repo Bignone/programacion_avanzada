@@ -2,11 +2,11 @@ package primos;
 
 import java.util.Date;
 
-public class Primos {
+public class PrimosRunnable implements Runnable { //@Ejercicio4
     private int x,y,n=0;
-    private long executionTime; // @Ejercicio1
+    private long executionTime; // @Ejercicio2
 
-    public Primos(int x, int y){
+    public PrimosRunnable(int x, int y){
         this.x=x;
         this.y=y;
     }
@@ -24,8 +24,8 @@ public class Primos {
         return primo;
     }
 
-    public void calcular(){
-    	long t0 = (new Date()).getTime();// @Ejercicio1
+    public void run(){
+    	long t0 = (new Date()).getTime();// @Ejercicio2
         for (int i=x; i<=y; i++)
         {
             if(esPrimo(i))
@@ -33,16 +33,16 @@ public class Primos {
                 n++;
             }
         }
-        long t1 = (new Date()).getTime();// @Ejercicio1
-        this.executionTime = (t1-t0);// @Ejercicio1
-        System.out.println("Tiempo en calcular los primos: "+ (t1-t0) +" miliseg.");
+        long t1 = (new Date()).getTime();// @Ejercicio2
+        this.executionTime = (t1-t0);// @Ejercicio2
     }
 
     public int cuantos(){
         return n;
     }
     
-    public long getExecutionTime() { // @Ejercicio1
+    public long getExecutionTime() { // @Ejercicio2
     	return this.executionTime;
     }
+
 }

@@ -1,7 +1,10 @@
 package primos;
 
+import java.util.Date;
+
 public class PrimosThread extends Thread {
     private int x,y,n=0;
+    private long executionTime; // @Ejercicio2
 
     public PrimosThread(int x, int y){
         this.x=x;
@@ -22,6 +25,7 @@ public class PrimosThread extends Thread {
     }
 
     public void run(){
+    	long t0 = (new Date()).getTime();// @Ejercicio2
         for (int i=x; i<=y; i++)
         {
             if(esPrimo(i))
@@ -29,10 +33,16 @@ public class PrimosThread extends Thread {
                 n++;
             }
         }
+        long t1 = (new Date()).getTime();// @Ejercicio2
+        this.executionTime = (t1-t0);// @Ejercicio2
     }
 
     public int cuantos(){
         return n;
+    }
+    
+    public long getExecutionTime() { // @Ejercicio2
+    	return this.executionTime;
     }
 
 }

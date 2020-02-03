@@ -25,6 +25,14 @@ public class CuantosPrimos2 {
         } catch (InterruptedException e){}
 
         int n = p1.cuantos() + p2.cuantos() + p3.cuantos() + p4.cuantos() + p5.cuantos();
+        long tExec = p1.getExecutionTime() + p2.getExecutionTime() + p3.getExecutionTime() + p4.getExecutionTime() + p5.getExecutionTime(); // @Ejercicio2
+        System.out.println("Suma de los tiempos de ejecución: " + tExec); // @Ejercicio2
+        
+        /**@Ejercicio2
+         La suma del tiempo es mucho mayor porque el programa principal no realiza los procesamientos en serie.
+         Lo que implica que el programa principal acaba cuando lanza los threads, no cuando acaban su procesamiento.
+         */
+        
         long t1 = (new Date()).getTime(); //t1=instante de final de los cálculos
         System.out.println("Número de primos menores que 10.000.000: "+ n +" calculado en "+ (t1-t0) +" miliseg.");
 
