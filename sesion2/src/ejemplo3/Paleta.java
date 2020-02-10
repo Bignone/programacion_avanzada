@@ -30,12 +30,12 @@ public class Paleta
 	    			color = colores[i];
 	    		}
 	    	}
-	        
-	        return color;
     	}
+    	
     	finally {
     		this.l.unlock();
     	}
+    	return color;
     }
 
 	public void liberarColor(Color color) {
