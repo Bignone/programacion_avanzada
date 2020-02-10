@@ -20,12 +20,11 @@ public class Bicho extends Thread { //@Ejercicio7
 	
 	public void live() throws InterruptedException {
 		String childName = randomName();
-		
+		System.out.println("NACE " + name + ", generacion: " + generation);
 		long t0 = (new Date()).getTime();
 		Thread.sleep((long) (Math.random()+500));
 		
-		if (this.generation <= 5) {
-			System.out.println("NACE " + childName + ", generacion: " + generation);
+		if (this.generation < 5) {
 			Bicho child = new Bicho(this.generation + 1, childName);
 			child.start();
 			child.join();
@@ -33,9 +32,7 @@ public class Bicho extends Thread { //@Ejercicio7
 		
 		long t1 = (new Date()).getTime();
 		
-		if (this.generation < 5) {
-			System.out.println("MUERE " + childName + ", generacion: " + generation + ", life: " + (t1-t0));
-		}
+		System.out.println("MUERE " + name + ", generacion: " + generation + ", life: " + (t1-t0));
 	}
 	
 	public void run() {
