@@ -37,6 +37,21 @@ public class Paleta
     	}
     	return color;
     }
+    
+    public Color tomaColorNoThreadSafe() {  // @Ejercicio3
+    	Color color = null;
+    	boolean searchColor = true;
+    	while (searchColor) {
+    		int i = (int)(4 * Math.random());  //Elige color al azar
+	    		if (this.coloresLibres[i]) {
+	    			this.coloresLibres[i] = false;
+	    			searchColor = false;
+	    			color = colores[i];
+	    		}
+	    	}
+ 
+    	return color;
+    }
 
 	public void liberarColor(Color color) {
 		for (int i=0; i < colores.length; i++) {
