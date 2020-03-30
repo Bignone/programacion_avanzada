@@ -1,8 +1,5 @@
 package bloque3tarea2;
 
-import bloque3tarea2.Consumer;
-import bloque3tarea2.Producer;
-
 public class Main {
 	
 	private static int NUM_PRODUCERS_CREATED = 3;
