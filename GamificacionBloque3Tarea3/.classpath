@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="Ejercicio2/src"/>
-	<classpathentry kind="output" path="Ejercicio2/build/classes"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
