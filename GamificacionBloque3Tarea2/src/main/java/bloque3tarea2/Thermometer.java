@@ -30,17 +30,6 @@ public class Thermometer {
 	public double readFromMemory() {
 		return memory.remove(0);
 	}
-	
-	synchronized public double memoryAccess(String operation, double value) {
-    	double result = -99.9;
-    	if (operation.equals("get")) {
-    		result = memory.remove(0);
-    	}
-    	else if (operation.equals("put")) {
-    		memory.add(value);
-    	}
-    	return result;
-    }
     
     public void printMemory() {
     	System.out.println("Memory: " + memory.toString());
