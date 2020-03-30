@@ -20,7 +20,7 @@ public class Thermometer {
 		}
     }
 	
-	synchronized public double memoryAccess(String operation, double value) {
+	public synchronized double memoryAccess(String operation, double value) {
     	double result = -99.9;
     	if (operation.equals("get")) {
     		result = memory.remove(0);
