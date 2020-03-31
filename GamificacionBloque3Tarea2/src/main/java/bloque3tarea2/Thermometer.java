@@ -58,7 +58,7 @@ public class Thermometer {
             lock.lock();
             while (isMemoryEmpty()) {
                 try {
-                	valuesInMemory.await(); // espera a que le manden una señal
+                	valuesInMemory.await();
                 } catch (Exception e) {
                 }
             }
