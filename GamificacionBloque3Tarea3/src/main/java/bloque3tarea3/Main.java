@@ -2,9 +2,9 @@ package bloque3tarea3;
 
 public class Main {
 	
-	private static int NUM_PRODUCERS_CREATED = 5;
+	private static int NUM_PRODUCERS_CREATED = 3;
 	private static int NUM_PRODUCERS_MESSAGES = 15;
-	private static int NUM_READERS_CREATED = 5;
+	private static int NUM_READERS_CREATED = 3;
 
 	public static void main(String[] args) {
 		Thermometer thermometer = new Thermometer();

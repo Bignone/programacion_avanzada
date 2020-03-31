@@ -5,8 +5,8 @@ import java.util.concurrent.Semaphore;
 
 public class Thermometer {
 	
-	private static int NUM_WRITERS = 5;
-	private static int NUM_READERS = 5;
+	private static int NUM_WRITERS = 1;
+	private static int NUM_READERS = 1;
 	private Semaphore semaphoreWriters = new Semaphore(NUM_WRITERS);
 	private Semaphore semaphoreReaders = new Semaphore(NUM_READERS);
 	ArrayList<Double> memory = new ArrayList<>(10);
