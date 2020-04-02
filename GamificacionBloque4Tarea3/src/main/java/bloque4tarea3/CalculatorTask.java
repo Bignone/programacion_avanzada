@@ -19,7 +19,7 @@ public class CalculatorTask extends Thread {
         for (int i=from; i<=to; i++) {
 
 		    if(isPrime(i)) {
-		    	System.out.println("calculator " + currentThread().getName() + " found prime " + i);
+		    	System.out.println("calculator ("+from+"-"+to+") " + currentThread().getName() + " found prime " + i);
 		    }
 		}
     }
