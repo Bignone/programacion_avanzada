@@ -1,4 +1,4 @@
-package bloque5tarea1.tcp;
+package bloque5tarea2.tcp;
 
 import java.io.*;
 import java.net.*;
@@ -34,7 +34,7 @@ public class ClientTCP {
 	public static void main(String args[]) {
     	try {
     		ClientTCP client = new ClientTCP();
-        	client.send("2,3");
+        	client.send("1992/12/22");
 			client.close();
 		} catch (IOException e) {
 			e.printStackTrace();
