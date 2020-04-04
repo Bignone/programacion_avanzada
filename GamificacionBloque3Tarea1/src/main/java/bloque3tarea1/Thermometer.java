@@ -7,8 +7,8 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Thermometer {
 	
 	private Lock lock = new ReentrantLock();
-	double memory = 0.0;
-	
+	public static double DEFAULT_MEMORY_VALUE = -99.99999;
+	double memory = DEFAULT_MEMORY_VALUE;
 	
 	public void addtoMemory(double value) {
 		memory = value;

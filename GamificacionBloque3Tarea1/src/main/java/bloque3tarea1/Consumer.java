@@ -3,10 +3,9 @@ package bloque3tarea1;
 
 public class Consumer extends Thread {
 	
-    private static int READ_LIMIT_NUM = 50; // to not run for ever
-    private int numreaded = 0;
 	private Thermometer thermometer;
     private String name;
+    private double lastValueReaded = Thermometer.DEFAULT_MEMORY_VALUE;
 
     public Consumer(String name, Thermometer thermometer) {
     	this.name = name;
@@ -19,15 +18,18 @@ public class Consumer extends Thread {
     }
     
     public void readFromThermometer() {
-    	System.out.println("Consumer " + name + " readed value (" + numreaded + " of limit "  + READ_LIMIT_NUM + "): "+ thermometer.receiveMessage());
-    	numreaded++;
+    	double valueFromThermometer = thermometer.receiveMessage();
+    	if (valueFromThermometer != lastValueReaded) {
+    		lastValueReaded = valueFromThermometer;
+	    	System.out.println("Consumer " + name + " readed value "+ valueFromThermometer);
+    	}
     }
     	
     	
 
     @Override
     public void run() {
-        while (numreaded < READ_LIMIT_NUM) {
+        while (true) {
             try {
             	goToSleep();
             	readFromThermometer();

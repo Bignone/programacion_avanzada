@@ -13,6 +13,5 @@ public class Main {
         Consumer display = new Consumer("Reader", thermometer);
         display.start();
         
-        
         }
 }
