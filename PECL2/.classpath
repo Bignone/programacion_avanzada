@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="PECL2/src"/>
+	<classpathentry kind="lib" path="PECL2/dist/PECL2.jar"/>
+	<classpathentry kind="output" path="PECL2/build/classes"/>
+</classpath>
