@@ -6,6 +6,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.JTextField;
 
+
+/**
+ * Clase reutilizada y completada de la sesión 5.
+ */
 public class Exposicion {
 
     int aforo;
@@ -23,6 +27,10 @@ public class Exposicion {
         dentro = new ListaThreads(tfDentro);
     }
 
+    /**
+     * Función auxiliar que cambia el estado de la variable parar. Sólo se usa
+     * para el botón de "ProgPrincipal"
+     */
     public void detener() {
         if (!parar) {
             parar = true;
@@ -30,6 +38,11 @@ public class Exposicion {
         }
     }
 
+    /**
+     * Función auxiliar que cambia el estado de la variable parar. Sólo se usa
+     * para el botón de "ProgPrincipal". En este caso, hemos usado locks para
+     * avisar cuando ya han dado al botón de reanudar.
+     */
     public void renuadar() {
         if (parar) {
             parar = false;
@@ -43,6 +56,14 @@ public class Exposicion {
         }
     }
 
+    /**
+     * A diferencia de la Sesión 5, lo que he añadio es un lock para que tome el
+     * recurso cuando entre, y la condition para cuando se le de a reanudar. Al
+     * final, el semáforo reduce una posición de su capacidad, para evitar que
+     * exceda la capacidad.
+     *
+     * @param v
+     */
     public void entrar(Visitante v) {
         colaEspera.meter(v);
         try {
@@ -67,6 +88,13 @@ public class Exposicion {
         dentro.meter(v);
     }
 
+    /**
+     * A diferencia de la Sesión 5, lo que he añadio es el release para indicar
+     * que hay una plaza disponible nueva. También el lock para que tome el
+     * recuso, por si hay que bloquear.
+     *
+     * @param v
+     */
     public void salir(Visitante v) {
         dentro.sacar(v);
         semaforo.release();
@@ -86,6 +114,12 @@ public class Exposicion {
         }
     }
 
+    /**
+     * A diferencia de la Sesión 5, lo que he añadio es el lock para que tome el
+     * recuso, por si hay que bloquear.
+     *
+     * @param v
+     */
     public void mirar(Visitante v) {
         try {
             Thread.sleep(2000 + (int) (3000 * Math.random()));

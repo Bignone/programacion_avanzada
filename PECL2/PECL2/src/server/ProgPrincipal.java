@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+/**
+ * Clase de la sesión 5, con modificaciones
+ */
 public class ProgPrincipal extends javax.swing.JFrame {
 
     Exposicion exposicion;
@@ -11,13 +15,19 @@ public class ProgPrincipal extends javax.swing.JFrame {
     private ControlServer controlserver;
 
     /**
-     * Creates new form ProgPrincipal
+     * Inicializa los componentes del JFrame, los visitantes, el servidor y la
+     * exposición (initBackEndElements).
      */
     public ProgPrincipal() throws IOException {
         initComponents();
         initBackEndElements();
     }
 
+    /**
+     * Inicializa los visitantes, el servidor y la exposición.
+     *
+     * @throws IOException
+     */
     public void initBackEndElements() throws IOException {
         exposicion = new Exposicion(10, jTextField1, jTextField2);
         controlserver = new ControlServer(exposicion);

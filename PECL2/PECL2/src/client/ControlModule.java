@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  Esta es la clase del Cliente.
  */
 package client;
 
@@ -9,6 +7,7 @@ import java.io.*;
 import java.net.*;
 
 
+//@author Eduardo Bustos Miranda & César Munuera Pérez 
 public class ControlModule { // Clase cliente
 
     Socket socket;
@@ -27,13 +26,24 @@ public class ControlModule { // Clase cliente
         this.port = port;
     }
 
+    /**
+     * Crea la conexion con el servidor y los canales de datos
+     *
+     * @throws IOException
+     */
     public void connect() throws IOException { // crear la conexion con el servidor y los canales de datos
         socket = new Socket(this.address, port);
         dataInputStream = new DataInputStream(socket.getInputStream());
         dataOutputStream = new DataOutputStream(socket.getOutputStream());
     }
 
-    public String sendMessage(String msg) { // envia un mesaje y devuelve la respuesta del server
+    /**
+     * Función que envía y recibe mensajes del servidor.
+     *
+     * @param msg
+     * @return
+     */
+    public String sendMessage(String msg) {
         String response = null;
         try {
             dataOutputStream.writeUTF(msg);
@@ -45,19 +55,43 @@ public class ControlModule { // Clase cliente
         return response;
     }
 
-    public void close() throws IOException { // cierra la conexion
-    	sendMessage(COMMAND_CLOSE); // manda el comando de cierre al servidor
+    /**
+     * Función que cierra la conexión, mandando el comando close
+     *
+     * @throws IOException
+     */
+    public void close() throws IOException { 
+    	sendMessage(COMMAND_CLOSE); 
         socket.close();
     }
 
-    public String reanudar() { // metodo que manda el comando reanudar definido sin que el usuario sepa el string
+    /**
+     * Función que da la orden de reanudar, de los botones del Cliente
+     *
+     * @return
+     */
+    public String reanudar() { 
         return sendMessage(COMMAND_REANUDAR);
     }
 
-    public String detener() { // metodo que manda el comando detener definido sin que el usuario sepa el string
+    /**
+     * Función que da la orden de detener, de los botones del Cliente
+     *
+     * @return
+     */
+    public String detener() {
         return sendMessage(COMMAND_DETENER);
     }
 
+    
+    /**
+     * Ejemplo de uso del cliente, conectar y mandar comandos
+     *
+     * @param args
+     * @throws UnknownHostException
+     * @throws IOException
+     * @throws CloneNotSupportedException
+     */
     public static void main(String args[]) throws UnknownHostException, IOException, CloneNotSupportedException {
 
         ControlModule controlModule = new ControlModule(InetAddress.getLocalHost(), 5000); // crear el controlador
@@ -65,8 +99,6 @@ public class ControlModule { // Clase cliente
 
         controlModule.reanudar();
         controlModule.detener();
-//
-//        controlModule.clone();
 
     }
 

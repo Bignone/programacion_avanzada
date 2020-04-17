@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package client;
 
 import java.io.IOException;
@@ -12,8 +7,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Este es el JFrame del cliente
  *
- * @author cesar
+ * @author César Munuera Pérez & Eduardo Bustos Miranda
  */
 public class ControlModulejFrame extends javax.swing.JFrame {
 
@@ -32,6 +28,9 @@ public class ControlModulejFrame extends javax.swing.JFrame {
 
     }
 
+    /*
+     * Función que inicia al Cliente cuando ejecutamos esta clase.
+     */
     public void initControlModule() throws UnknownHostException, IOException {
         address = InetAddress.getLocalHost();
         controlmodule = new ControlModule(address, PORT);
@@ -105,14 +104,26 @@ public class ControlModulejFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Botón de reanudar
+     * @param evt 
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         controlmodule.reanudar();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    /**
+     * Botón de detener
+     * @param evt 
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         controlmodule.detener();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    /**
+     * Función que llama a cerrar el cliente de la ventana que se desea cerrar
+     * @param evt 
+     */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         try {
             controlmodule.close();
