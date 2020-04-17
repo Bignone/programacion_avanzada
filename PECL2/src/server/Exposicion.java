@@ -28,8 +28,8 @@ public class Exposicion {
     }
 
     /**
-     * Funci�n auxiliar que cambia el estado de la variable parar. S�lo se usa
-     * para el bot�n de "ProgPrincipal"
+     * Función auxiliar que cambia el estado de la variable parar. Sólo se usa
+     * para el botón de "ProgPrincipal"
      */
     public void detener() {
         if (!parar) {
@@ -39,9 +39,9 @@ public class Exposicion {
     }
 
     /**
-     * Funci�n auxiliar que cambia el estado de la variable parar. S�lo se usa
-     * para el bot�n de "ProgPrincipal". En este caso, hemos usado locks para
-     * avisar cuando ya han dado al bot�n de reanudar.
+     * Función auxiliar que cambia el estado de la variable parar. Sólo se usa
+     * para el botón de "ProgPrincipal". En este caso, hemos usado locks para
+     * avisar cuando ya han dado al botón de reanudar.
      */
     public void renuadar() {
         if (parar) {
@@ -57,9 +57,9 @@ public class Exposicion {
     }
 
     /**
-     * A diferencia de la Sesi�n 5, lo que he a�adio es un lock para que tome el
+     * A diferencia de la Sesión 5, lo que he añadio es un lock para que tome el
      * recurso cuando entre, y la condition para cuando se le de a reanudar. Al
-     * final, el sem�foro reduce una posici�n de su capacidad, para evitar que
+     * final, el sem�foro reduce una posición de su capacidad, para evitar que
      * exceda la capacidad.
      *
      * @param v
@@ -89,8 +89,8 @@ public class Exposicion {
     }
 
     /**
-     * A diferencia de la Sesi�n 5, lo que he a�adio es el release para indicar
-     * que hay una plaza disponible nueva. Tambi�n el lock para que tome el
+     * A diferencia de la Sesión 5, lo que he a�adio es el release para indicar
+     * que hay una plaza disponible nueva. También el lock para que tome el
      * recuso, por si hay que bloquear.
      *
      * @param v
@@ -115,7 +115,7 @@ public class Exposicion {
     }
 
     /**
-     * A diferencia de la Sesi�n 5, lo que he a�adio es el lock para que tome el
+     * A diferencia de la Sesión 5, lo que he añadio es el lock para que tome el
      * recuso, por si hay que bloquear.
      *
      * @param v

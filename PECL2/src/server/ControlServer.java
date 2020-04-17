@@ -28,7 +28,7 @@ public class ControlServer extends Thread { // Clase servidor
     private final LinkedBlockingQueue<Socket> queue = new LinkedBlockingQueue<>(CONNECTION_LIMIT);
 
     /**
-     * Creo una exposici�n, inicializo los comandos, meto el port al server e
+     * Creo una exposición, inicializo los comandos, meto el port al server e
      * inicializo los workers
      *
      * @param expo
@@ -43,7 +43,7 @@ public class ControlServer extends Thread { // Clase servidor
     }
     
     /**
-     * Funci�n que inicializa los comandos
+     * Función que inicializa los comandos
      */
     public void initCommands() { // iniciar los comandos del servidor
     	commands.put("detener", 0);
@@ -52,7 +52,7 @@ public class ControlServer extends Thread { // Clase servidor
     }
     
     /**
-     * Funci�n que crea y arranca los workers del server
+     * Función que crea y arranca los workers del server
      *
      * @throws IOException
      */
@@ -66,7 +66,7 @@ public class ControlServer extends Thread { // Clase servidor
     }
 
     /**
-     * Funci�n que calcula si la cola est� llena
+     * Función que calcula si la cola est� llena
      *
      * @return
      */
@@ -76,8 +76,8 @@ public class ControlServer extends Thread { // Clase servidor
 
     /**
      * Si queda espacio en la cola, acepto una conexi�n y se la paso a la cola.
-     * Si algo de esto �ltimo da fallo, salta error y se cierra la conexi�n. No
-     * se llega a a�adir.
+     * Si algo de esto �ltimo da fallo, salta error y se cierra la conexión. No
+     * se llega a añadir.
      */
     @Override
     public void run() {

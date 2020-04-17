@@ -16,7 +16,7 @@ public class ProgPrincipal extends javax.swing.JFrame {
 
     /**
      * Inicializa los componentes del JFrame, los visitantes, el servidor y la
-     * exposici�n (initBackEndElements).
+     * exposición (initBackEndElements).
      */
     public ProgPrincipal() throws IOException {
         initComponents();
@@ -24,7 +24,7 @@ public class ProgPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     * Inicializa los visitantes, el servidor y la exposici�n.
+     * Inicializa los visitantes, el servidor y la exposición.
      *
      * @throws IOException
      */

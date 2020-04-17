@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * Esta clase se encargar� de generar hiloss capaces de establecer conexiones
+ * Esta clase se encargará de generar hiloss capaces de establecer conexiones
  * con los clientes, y gestionar los mensajes que mandan.
  *
  * @author Eduardo Bustos Miranda & César Munuera Pérez
@@ -23,7 +23,7 @@ public class ControlWorker extends Thread { // Clase worker para ejecutar los co
     private final LinkedBlockingQueue<Socket> queue;
 
     /**
-     * A cada worker hay que pasarle la exposici�n sobre la que trabajar�, la
+     * A cada worker hay que pasarle la exposición sobre la que trabajar, la
      * cola donde debe recoger su trabajo (las conexiones), y un HashMap con los
      * comandos que pueden ejecutar.
      *
@@ -40,7 +40,7 @@ public class ControlWorker extends Thread { // Clase worker para ejecutar los co
     }
 
     /**
-     * Funci�n que sacaca del HM el valor en funci�n de la key que le hemos
+     * Función que sacaca del HM el valor en funci�n de la key que le hemos
      * pasado.
      *
      * @param msg
@@ -55,7 +55,7 @@ public class ControlWorker extends Thread { // Clase worker para ejecutar los co
     }
 
     /**
-     * Funci�n que, dependiendo el comando que se le pase, llama a la funci�n
+     * Función que, dependiendo el comando que se le pase, llama a la función
      * detener o reanudar.
      *
      * @param command
@@ -79,15 +79,15 @@ public class ControlWorker extends Thread { // Clase worker para ejecutar los co
     /**
      * Mantendremos a los workers realizando las siguientes tareas;
      *
-     * Coge una conexi�n, establece los canales de entrada y de salida, y se
+     * Coge una conexión, establece los canales de entrada y de salida, y se
      * pone en modo receiving. Si la E/S falla, no se pone en este modo y cierra
-     * la conexi�n.
+     * la conexión.
      *
-     * Despu�s lee lo que llega del cliente, y busca el comando en el mensaje.
+     * Después lee lo que llega del cliente, y busca el comando en el mensaje.
      * Si no hay nada que ejecutar (HABIENDO RECIBIDO EL MENSAJE), se sale y
-     * cierra la conexi�n. As� deja de estar en modo receiving.
+     * cierra la conexión. Así deja de estar en modo receiving.
      *
-     * Despu�s sale, y vuelve a coger una conexi�n, ...
+     * Después sale, y vuelve a coger una conexión, ...
      */
     @Override
     public void run() {

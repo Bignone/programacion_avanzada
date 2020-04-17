@@ -38,7 +38,7 @@ public class ControlModule { // Clase cliente
     }
 
     /**
-     * Funci�n que env�a y recibe mensajes del servidor.
+     * Funci�n que envía y recibe mensajes del servidor.
      *
      * @param msg
      * @return
@@ -56,7 +56,7 @@ public class ControlModule { // Clase cliente
     }
 
     /**
-     * Funci�n que cierra la conexi�n, mandando el comando close
+     * Función que cierra la conexión, mandando el comando close
      *
      * @throws IOException
      */
@@ -66,7 +66,7 @@ public class ControlModule { // Clase cliente
     }
 
     /**
-     * Funci�n que da la orden de reanudar, de los botones del Cliente
+     * Función que da la orden de reanudar, de los botones del Cliente
      *
      * @return
      */
@@ -75,7 +75,7 @@ public class ControlModule { // Clase cliente
     }
 
     /**
-     * Funci�n que da la orden de detener, de los botones del Cliente
+     * Función que da la orden de detener, de los botones del Cliente
      *
      * @return
      */
