@@ -1,5 +1,6 @@
 package prueba1;
 
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 public class Actividad {
@@ -17,8 +18,14 @@ public class Actividad {
 	
 	public void entrar() {
 		try {
-			semaforo.acquire();
-		} catch (Exception e) {
+			// poner el permiso del visitante a false (por si viene en true de otra actividad)
+			// colocar al visitante en la cola (aqui el vigilante la pondra a true cuando pase)
+			semaforo.acquire(); // el visitante se va a a dormir
+			// esperar a tener permiso para pasar (espera activa, es finita hasta que pase el vigilante o hasta que el vigilante le eche)
+		} catch (InterruptedException  e) {
+			// el vigilante te ha echado porque eres demasiado malo para la actividad
+			// quitar el visitante de la cola de espera
+			// liberar el espacio del semaforo para que pase el siguiente
 			e.printStackTrace();
 		}
 	}
@@ -27,13 +34,15 @@ public class Actividad {
 		try {
 			Thread.sleep((long) ((int)(5000) +(5000*Math.random())));
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			// quitar el visitante de la cola de espera
+			// liberar el espacio del semaforo para que pase el siguiente
 			e.printStackTrace();
 		}
 	}
 	
 	public void salir() {
 		semaforo.release();
+		// poner el permiso a false (que deambulen por ahi sin permiso)
 	}
 	
 	public String toString() {

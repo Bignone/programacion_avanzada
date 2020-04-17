@@ -21,35 +21,44 @@ public class Visitante extends Thread {
 		return this.identificador;
 	}
 	
-	public void run() {
-		try {
-			sleep((long) ((int)(500) +(400*Math.random())));
-			System.out.println("Entrando al parque: " + toString());
-			parque.entrar();
-			
-			int cantidadActividades = (int) (10 * Math.random() + 5);
-			System.out.println("Escogiendo actividade del parque: " + cantidadActividades);
-			actividades = parque.escogerActividades(cantidadActividades);
-			
-			for (Actividad actividad: actividades) {
-				System.out.println("Entrando a la actividad: " + actividad.toString());
-				actividad.entrar();
-				boolean dentro = true; // viene de actividad.entrar()
-				if (dentro) {
-					actividad.disfrutar();
-					actividad.salir();
-				}
-			}
-			
-			System.out.println("Disfrutando en el parque: " + toString());
-			parque.disfrutar();
-			
-			System.out.println("Saliendo del parque: " + toString());
-			parque.salir();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public String getIdentificador() {
+		return identificador;
+	}
+
+	public void setIdentificador(String identificador) {
+		this.identificador = identificador;
+	}
+
+	public int getEdad() {
+		return edad;
+	}
+
+	public void setEdad(int edad) {
+		this.edad = edad;
+	}
+
+	public Visitante getAcompaniante() {
+		return acompaniante;
+	}
+
+	public void setAcompaniante(Visitante acompaniante) {
+		this.acompaniante = acompaniante;
+	}
+
+	public ParqueAcuatico getParque() {
+		return parque;
+	}
+
+	public void setParque(ParqueAcuatico parque) {
+		this.parque = parque;
+	}
+
+	public List<Actividad> getActividades() {
+		return actividades;
+	}
+
+	public void setActividades(List<Actividad> actividades) {
+		this.actividades = actividades;
 	}
 
 }

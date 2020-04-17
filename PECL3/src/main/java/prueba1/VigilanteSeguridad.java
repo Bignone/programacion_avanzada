@@ -6,12 +6,14 @@ public class VigilanteSeguridad extends Thread {
 	
 	String id;
 	ArrayBlockingQueue<Visitor> espacio;
-	Tumbonas tumbonas;
 	
-	public VigilanteSeguridad(String id, ArrayBlockingQueue<Visitor> espacio, Tumbonas tumbonas) {
+	public VigilanteSeguridad(String id, ArrayBlockingQueue<Visitor> espacio) {
 		this.id = id;
 		this.espacio = espacio;
-		this.tumbonas = tumbonas;
+	}
+	
+	public boolean tienePermiso(Visitante visitante) {
+		return visitante.getEdad() < 15;
 	}
 	
 	public void run() {

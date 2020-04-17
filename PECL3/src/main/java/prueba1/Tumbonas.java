@@ -16,7 +16,7 @@ public class Tumbonas {
 	
 	public Tumbonas(String id) {
 		this.id = id;
-		this.vigilante = new VigilanteSeguridad("Vigilante-tumbonas", espacio, this);
+		this.vigilante = new VigilanteSeguridad("Vigilante-tumbonas", espacio);
 		this.vigilante.start();
 	}
 	
