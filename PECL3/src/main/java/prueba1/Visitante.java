@@ -31,6 +31,16 @@ public class Visitante extends Thread {
 			System.out.println("Escogiendo actividade del parque: " + cantidadActividades);
 			actividades = parque.escogerActividades(cantidadActividades);
 			
+			for (Actividad actividad: actividades) {
+				System.out.println("Entrando a la actividad: " + actividad.toString());
+				actividad.entrar();
+				boolean dentro = true; // viene de actividad.entrar()
+				if (dentro) {
+					actividad.disfrutar();
+					actividad.salir();
+				}
+			}
+			
 			System.out.println("Disfrutando en el parque: " + toString());
 			parque.disfrutar();
 			

@@ -24,7 +24,7 @@ public class Actividade {
 	public BlockingQueue<Visitor> getEspacioParaVisitor(Visitor visitor) {
 		BlockingQueue<Visitor> espacio = null;
 		if (visitor instanceof Visitor) {
-		espacio = this.espacioDentro;	
+			espacio = this.espacioDentro;	
 		}
 		return espacio;
 	}

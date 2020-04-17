@@ -25,7 +25,7 @@ public class ParqueAcuatico {
 	
 	public List<Actividad> escogerActividades(int cantidad) {
 		List<Actividad> actividadesEscogidas = new ArrayList<>();
-		if (cantidad < actividades.size()) {
+		if (cantidad <= 0) {
 			cantidad = actividades.size();
 		}
 		
