@@ -2,8 +2,8 @@ package server;
 
 
 /**
- * Clase Visitante de la exposición
- * @author Eduardo Bustos Miranda & César Munuera Pérez
+ * Clase Visitante de la exposiciÃ³n
+ * @author Eduardo Bustos Miranda & CÃ©sar Munuera PÃ©rez
  */
 public class Visitante extends Thread
 {

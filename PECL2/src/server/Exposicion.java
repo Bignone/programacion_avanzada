@@ -8,7 +8,7 @@ import javax.swing.JTextField;
 
 
 /**
- * Clase reutilizada y completada de la sesión 5.
+ * Clase reutilizada y completada de la sesiÃ³n 5.
  */
 public class Exposicion {
 
@@ -28,8 +28,8 @@ public class Exposicion {
     }
 
     /**
-     * Función auxiliar que cambia el estado de la variable parar. Sólo se usa
-     * para el botón de "ProgPrincipal"
+     * Funciï¿½n auxiliar que cambia el estado de la variable parar. Sï¿½lo se usa
+     * para el botï¿½n de "ProgPrincipal"
      */
     public void detener() {
         if (!parar) {
@@ -39,9 +39,9 @@ public class Exposicion {
     }
 
     /**
-     * Función auxiliar que cambia el estado de la variable parar. Sólo se usa
-     * para el botón de "ProgPrincipal". En este caso, hemos usado locks para
-     * avisar cuando ya han dado al botón de reanudar.
+     * Funciï¿½n auxiliar que cambia el estado de la variable parar. Sï¿½lo se usa
+     * para el botï¿½n de "ProgPrincipal". En este caso, hemos usado locks para
+     * avisar cuando ya han dado al botï¿½n de reanudar.
      */
     public void renuadar() {
         if (parar) {
@@ -57,9 +57,9 @@ public class Exposicion {
     }
 
     /**
-     * A diferencia de la Sesión 5, lo que he añadio es un lock para que tome el
+     * A diferencia de la Sesiï¿½n 5, lo que he aï¿½adio es un lock para que tome el
      * recurso cuando entre, y la condition para cuando se le de a reanudar. Al
-     * final, el semáforo reduce una posición de su capacidad, para evitar que
+     * final, el semï¿½foro reduce una posiciï¿½n de su capacidad, para evitar que
      * exceda la capacidad.
      *
      * @param v
@@ -89,8 +89,8 @@ public class Exposicion {
     }
 
     /**
-     * A diferencia de la Sesión 5, lo que he añadio es el release para indicar
-     * que hay una plaza disponible nueva. También el lock para que tome el
+     * A diferencia de la Sesiï¿½n 5, lo que he aï¿½adio es el release para indicar
+     * que hay una plaza disponible nueva. Tambiï¿½n el lock para que tome el
      * recuso, por si hay que bloquear.
      *
      * @param v
@@ -115,7 +115,7 @@ public class Exposicion {
     }
 
     /**
-     * A diferencia de la Sesión 5, lo que he añadio es el lock para que tome el
+     * A diferencia de la Sesiï¿½n 5, lo que he aï¿½adio es el lock para que tome el
      * recuso, por si hay que bloquear.
      *
      * @param v

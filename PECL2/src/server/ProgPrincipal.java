@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 
 /**
- * Clase de la sesión 5, con modificaciones
+ * Clase de la sesiÃ³n 5, con modificaciones
  */
 public class ProgPrincipal extends javax.swing.JFrame {
 
@@ -16,7 +16,7 @@ public class ProgPrincipal extends javax.swing.JFrame {
 
     /**
      * Inicializa los componentes del JFrame, los visitantes, el servidor y la
-     * exposición (initBackEndElements).
+     * exposiciï¿½n (initBackEndElements).
      */
     public ProgPrincipal() throws IOException {
         initComponents();
@@ -24,7 +24,7 @@ public class ProgPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     * Inicializa los visitantes, el servidor y la exposición.
+     * Inicializa los visitantes, el servidor y la exposiciï¿½n.
      *
      * @throws IOException
      */

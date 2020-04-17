@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 /**
  * Este es el JFrame del cliente
  *
- * @author César Munuera Pérez & Eduardo Bustos Miranda
+ * @author CÃ©sar Munuera PÃ©rez & Eduardo Bustos Miranda
  */
 public class ControlModulejFrame extends javax.swing.JFrame {
 
@@ -29,7 +29,7 @@ public class ControlModulejFrame extends javax.swing.JFrame {
     }
 
     /*
-     * Función que inicia al Cliente cuando ejecutamos esta clase.
+     * Funciï¿½n que inicia al Cliente cuando ejecutamos esta clase.
      */
     public void initControlModule() throws UnknownHostException, IOException {
         address = InetAddress.getLocalHost();
@@ -105,7 +105,7 @@ public class ControlModulejFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Botón de reanudar
+     * Botï¿½n de reanudar
      * @param evt 
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -113,7 +113,7 @@ public class ControlModulejFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
-     * Botón de detener
+     * Botï¿½n de detener
      * @param evt 
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -121,7 +121,7 @@ public class ControlModulejFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
-     * Función que llama a cerrar el cliente de la ventana que se desea cerrar
+     * Funciï¿½n que llama a cerrar el cliente de la ventana que se desea cerrar
      * @param evt 
      */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

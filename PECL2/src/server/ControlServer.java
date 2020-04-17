@@ -12,7 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Esta es la claser del Server
  *
- * @author César Munuera Pérez & Eduardo Bustos Miranda
+ * @author CÃ©sar Munuera PÃ©rez & Eduardo Bustos Miranda
  */
 public class ControlServer extends Thread { // Clase servidor
 
@@ -28,7 +28,7 @@ public class ControlServer extends Thread { // Clase servidor
     private final LinkedBlockingQueue<Socket> queue = new LinkedBlockingQueue<>(CONNECTION_LIMIT);
 
     /**
-     * Creo una exposición, inicializo los comandos, meto el port al server e
+     * Creo una exposiciï¿½n, inicializo los comandos, meto el port al server e
      * inicializo los workers
      *
      * @param expo
@@ -43,7 +43,7 @@ public class ControlServer extends Thread { // Clase servidor
     }
     
     /**
-     * Función que inicializa los comandos
+     * Funciï¿½n que inicializa los comandos
      */
     public void initCommands() { // iniciar los comandos del servidor
     	commands.put("detener", 0);
@@ -52,7 +52,7 @@ public class ControlServer extends Thread { // Clase servidor
     }
     
     /**
-     * Función que crea y arranca los workers del server
+     * Funciï¿½n que crea y arranca los workers del server
      *
      * @throws IOException
      */
@@ -66,7 +66,7 @@ public class ControlServer extends Thread { // Clase servidor
     }
 
     /**
-     * Función que calcula si la cola está llena
+     * Funciï¿½n que calcula si la cola estï¿½ llena
      *
      * @return
      */
@@ -75,9 +75,9 @@ public class ControlServer extends Thread { // Clase servidor
     }
 
     /**
-     * Si queda espacio en la cola, acepto una conexión y se la paso a la cola.
-     * Si algo de esto último da fallo, salta error y se cierra la conexión. No
-     * se llega a añadir.
+     * Si queda espacio en la cola, acepto una conexiï¿½n y se la paso a la cola.
+     * Si algo de esto ï¿½ltimo da fallo, salta error y se cierra la conexiï¿½n. No
+     * se llega a aï¿½adir.
      */
     @Override
     public void run() {

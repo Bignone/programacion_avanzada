@@ -7,7 +7,7 @@ import java.io.*;
 import java.net.*;
 
 
-//@author Eduardo Bustos Miranda & César Munuera Pérez 
+//@author Eduardo Bustos Miranda & CÃ©sar Munuera PÃ©rez 
 public class ControlModule { // Clase cliente
 
     Socket socket;
@@ -38,7 +38,7 @@ public class ControlModule { // Clase cliente
     }
 
     /**
-     * Función que envía y recibe mensajes del servidor.
+     * Funciï¿½n que envï¿½a y recibe mensajes del servidor.
      *
      * @param msg
      * @return
@@ -56,7 +56,7 @@ public class ControlModule { // Clase cliente
     }
 
     /**
-     * Función que cierra la conexión, mandando el comando close
+     * Funciï¿½n que cierra la conexiï¿½n, mandando el comando close
      *
      * @throws IOException
      */
@@ -66,7 +66,7 @@ public class ControlModule { // Clase cliente
     }
 
     /**
-     * Función que da la orden de reanudar, de los botones del Cliente
+     * Funciï¿½n que da la orden de reanudar, de los botones del Cliente
      *
      * @return
      */
@@ -75,7 +75,7 @@ public class ControlModule { // Clase cliente
     }
 
     /**
-     * Función que da la orden de detener, de los botones del Cliente
+     * Funciï¿½n que da la orden de detener, de los botones del Cliente
      *
      * @return
      */
