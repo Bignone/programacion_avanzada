@@ -10,7 +10,7 @@ public class GeneradorVisitantes extends Thread {
 	}
 	
 	private boolean necesitaAcompanniante(int edad) {
-		return edad <= 10;
+		return edad < 18;
 	}
 	
 	private Acompaniante crearAcompannante(int idHijo, int contador) {
@@ -46,6 +46,7 @@ public class GeneradorVisitantes extends Thread {
 				if (acompaniante != null) {
 					System.out.println("Starting acompaniante: " + acompaniante.toString());
 					acompaniante.start();
+					break;
 				}
 				contador++;
 			}

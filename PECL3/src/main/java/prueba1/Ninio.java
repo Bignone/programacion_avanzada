@@ -1,9 +1,5 @@
 package prueba1;
 
-import prueba1.Actividad;
-import prueba1.Acompaniante;
-import prueba1.ParqueAcuatico;
-
 public class Ninio extends Visitante {
 	
 	public Ninio(String identificador, int edad, Acompaniante acompaniante, ParqueAcuatico parque) {
@@ -22,11 +18,10 @@ public class Ninio extends Visitante {
 			
 			for (Actividad actividad: getActividades()) {
 				System.out.println("Entrando a la actividad: " + actividad.toString());
-				actividad.entrar(this);
-				boolean dentro = true; // viene de actividad.entrar()
+				boolean dentro = actividad.entrar(this);				
 				if (dentro) {
 					actividad.disfrutar();
-					actividad.salir();
+					actividad.salir(this);
 				}
 			}
 			

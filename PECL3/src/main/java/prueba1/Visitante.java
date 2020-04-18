@@ -1,8 +1,9 @@
 package prueba1;
 
-import prueba1.Actividad;
-import prueba1.ParqueAcuatico;
 import java.util.List;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Visitante extends Thread {
 
@@ -11,7 +12,8 @@ public class Visitante extends Thread {
     private Visitante acompaniante;
     private ParqueAcuatico parque;
     private List<Actividad> actividades;
-    private boolean permiso = false;
+    private int permiso = 0;//si vale 0 esta esperando el permiso si es 1 se lo han concedido y si es 2 se lo han denegado
+    private Permiso permisoActividad = Permiso.NO_PERMITIDO;
 
     public Visitante(String identificador, int edad, Visitante acompaniante, ParqueAcuatico parque) {
         this.identificador = identificador;
@@ -64,11 +66,20 @@ public class Visitante extends Thread {
         this.actividades = actividades;
     }
 
-    public synchronized boolean getPermiso() {
+    public synchronized int getPermiso() {
         return permiso;
     }
 
-    public synchronized void setPermiso(boolean permiso) {
+    public synchronized void setPermiso(int permiso) {
         this.permiso = permiso;
     }
+    
+    public synchronized Permiso getPermisoActividad() {
+        return permisoActividad;
+    }
+
+    public synchronized void setPermisoActividad(Permiso permiso) {
+        this.permisoActividad = permiso;
+    }
+
 }

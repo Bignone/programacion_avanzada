@@ -9,10 +9,9 @@ public class Actividad {
     private int capacidad = 5;
     private Semaphore semaforo;
     private ArrayBlockingQueue<Visitante> colaEspera;
+    private ArrayBlockingQueue<Visitante> zonaActividad;
     private Vigilante vigilante;
-    // TODO: espacio de dentro como colaEspera
-    // TODO: implementar la logica de entrar al espacio
-    // TODO: implementar la salida del espacio
+
 
     public Actividad(String identificador, int capacidad) {
         this.identificador = identificador;
@@ -20,6 +19,7 @@ public class Actividad {
         this.colaEspera = new ArrayBlockingQueue<>(5000, true);
         this.semaforo = new Semaphore(capacidad, true);
         this.vigilante = iniciarVigilante();
+        this.zonaActividad= new ArrayBlockingQueue<>(capacidad, true);
         getVigilante().start();
     }
     
@@ -29,6 +29,7 @@ public class Actividad {
         this.colaEspera = new ArrayBlockingQueue<>(5000, colaFifo);
         this.semaforo = new Semaphore(capacidad, true);
         this.vigilante = iniciarVigilante();
+        this.zonaActividad= new ArrayBlockingQueue<>(capacidad, true);
         getVigilante().start();
     }
     
@@ -36,67 +37,119 @@ public class Actividad {
     	return new Vigilante("VigilanteDefault", getColaEspera());
     }
     
-    public synchronized void encolarNinio(Ninio visitante) {
-        colaEspera.offer(visitante);
-        colaEspera.offer(visitante.getAcompaniante());
-    }
-    public synchronized void desencolarNinio(Ninio visitante) {
-        colaEspera.remove(visitante);
-        colaEspera.remove(visitante.getAcompaniante());
+    public long getTiempoActividad() {
+    	return (long) ((int) (5000) + (5000 * Math.random()));
     }
     
-    public void entrar(Ninio visitante) {
-        try {
-            visitante.setPermiso(false);
-            
-            encolarNinio(visitante);
-            imprimirColaEspera();
-            semaforo.acquire(2);
-            while(!visitante.getPermiso()){
-                //esperando a que le echen o que pase
-            }
-        } catch (InterruptedException e) {
-            desencolarNinio(visitante);
-            semaforo.release(2);
-            
-        }
+    public synchronized void encolarNinio(Ninio visitante) {
+        getColaEspera().offer(visitante);
+        getColaEspera().offer(visitante.getAcompaniante());
+    }
+    public synchronized void desencolarNinioColaEspera(Ninio visitante) {
+    	getColaEspera().remove(visitante);
+    	getColaEspera().remove(visitante.getAcompaniante());
+    }
+    
+    public synchronized void encolarNinioActividad(Ninio visitante) {
+    	getColaEspera().remove(visitante);
+    	getColaEspera().remove(visitante.getAcompaniante());
+        getZonaActividad().offer(visitante);
+        getZonaActividad().offer(visitante.getAcompaniante());
     }
 
-    public void entrar(Adulto visitante) {
+	public synchronized void desencolarNinio(Ninio visitante) {
+		getZonaActividad().remove(visitante);
+		getZonaActividad().remove(visitante.getAcompaniante());
+    }
+    
+    public boolean entrar(Ninio visitante) throws InterruptedException {
+        boolean resultado = false;
         try {
-
-            colaEspera.offer(visitante);
+            visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+            encolarNinio(visitante);
             imprimirColaEspera();
-            semaforo.acquire();
-            while(!visitante.getPermiso()){
-                //esperando a que le echen o que pase
+            getSemaforo().acquire(2);
+            while(visitante.getPermisoActividad() == Permiso.NO_ESPECIFICADO){
+                Thread.sleep(500);
             }
-        } catch (InterruptedException e) {
-            colaEspera.remove(visitante);
-            semaforo.release();
+            if (visitante.getPermisoActividad() == Permiso.NO_PERMITIDO) {
+                    throw new SecurityException();
+            } else if (visitante.getPermisoActividad() == Permiso.CON_ACOMPANIANTE) {
+            	encolarNinioActividad(visitante);
+            } else if (visitante.getPermisoActividad() == Permiso.PERMITIDO) {
+            	getColaEspera().offer(visitante);
+            }
+            
+            resultado = true;
+        } catch (SecurityException e) {
+            System.out.println("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+            desencolarNinioColaEspera(visitante);
+            getSemaforo().release(2);
+            visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+            imprimirColaEspera();
+            
         }
+        return resultado;
+    }
+
+    public boolean entrar(Adulto visitante) throws InterruptedException {
+        boolean resultado = false;
+        try {
+            visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+            getColaEspera().offer(visitante);
+            imprimirColaEspera();
+            getSemaforo().acquire();
+            while(visitante.getPermisoActividad() == Permiso.NO_ESPECIFICADO){
+                Thread.sleep(500);
+            }
+            if (visitante.getPermisoActividad() != Permiso.PERMITIDO) {
+                    throw new SecurityException();
+                }
+            getColaEspera().remove(visitante);
+            getZonaActividad().offer(visitante);
+            resultado= true;
+            
+        } catch (SecurityException e) {
+        	getColaEspera().remove(visitante);
+        	getSemaforo().release();
+            visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+            
+        }
+        return resultado;
     }
 
     public void disfrutar() {
         try {
-            Thread.sleep((long) ((int) (5000) + (5000 * Math.random())));
+            imprimirZonaActividad();
+            Thread.sleep(getTiempoActividad());
         } catch (InterruptedException e) {
             // quitar el visitante de la cola de espera
             // liberar el espacio del semaforo para que pase el siguiente
         }
     }
-
-    public void salir() {
-        semaforo.release();
-        // poner el permiso a false (que deambulen por ahi sin permiso)
+    
+    public void salir(Adulto visitante) {
+    	getZonaActividad().remove(visitante);
+    	getSemaforo().release();
+        visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);// poner el permiso a false (que deambulen por ahi sin permiso)
     }
-
+    
+    public void salir(Ninio visitante) {
+        desencolarNinio(visitante);
+        getSemaforo().release(2);
+        visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);// poner el permiso a false (que deambulen por ahi sin permiso)
+    }
+    
     public String toString() {
         return this.identificador;
     }
 
-    private void imprimirColaEspera() {
+    protected void imprimirColaEspera() {
         System.out.println( "La actividad: " + identificador +" y la cola de espera es: " + colaEspera.toString());
+    }
+    
+    private void imprimirZonaActividad() {
+        System.out.println( "La actividad: " + identificador +" y la zona de la actividad es: " + zonaActividad.toString());
     }
     
     public String getIdentificador() {
@@ -105,6 +158,14 @@ public class Actividad {
 
 	public void setIdentificador(String identificador) {
 		this.identificador = identificador;
+	}
+	
+	public ArrayBlockingQueue<Visitante> getZonaActividad() {
+		return zonaActividad;
+	}
+
+	public void setZonaActividad(ArrayBlockingQueue<Visitante> zonaActividad) {
+		this.zonaActividad = zonaActividad;
 	}
 
 	public int getCapacidad() {

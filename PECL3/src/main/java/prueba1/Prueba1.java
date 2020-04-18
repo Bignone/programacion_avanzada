@@ -6,6 +6,7 @@ public class Prueba1 {
 		ParqueAcuatico parque = new ParqueAcuatico();
 		GeneradorVisitantes generadorVisitantes = new GeneradorVisitantes(parque);
 		generadorVisitantes.start();
+		
 	}
 
 }

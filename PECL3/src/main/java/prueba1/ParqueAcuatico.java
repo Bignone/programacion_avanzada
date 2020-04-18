@@ -15,13 +15,14 @@ public class ParqueAcuatico {
 
 	
 	public void iniciarActividades() {
-		this.actividades.add(new Actividad("Actividad-1-10", 10));
-		this.actividades.add(new Actividad("Actividad-2-8", 8));
-		this.actividades.add(new Actividad("Actividad-3-15", 15));
-		this.actividades.add(new Actividad("Actividad-4-3", 3));
-		this.actividades.add(new Actividad("Actividad-5-5", 5));
+//		this.actividades.add(new Actividad("Actividad-1-10", 10));
+//		this.actividades.add(new Actividad("Actividad-2-8", 8));
+//		this.actividades.add(new Actividad("Actividad-3-15", 15));
+//		this.actividades.add(new Actividad("Actividad-4-3", 3));
+//		this.actividades.add(new Actividad("Actividad-5-5", 5));
 		this.actividades.add(new Actividad("Actividad-6-4", 4));
 		this.actividades.add(new ActividadTumbonas());
+		this.actividades.add(new ActividadPiscinaOlas());
 	}
 	
 	public ParqueAcuatico() {
@@ -34,11 +35,15 @@ public class ParqueAcuatico {
 			cantidad = actividades.size();
 		}
 		
-		while (cantidad > 0) {
-			int indice_random = (int) (actividades.size() * Math.random());
-			actividadesEscogidas.add(actividades.get(indice_random));
-			cantidad--;
-		}
+//		while (cantidad > 0) {
+//			int indice_random = (int) (actividades.size() * Math.random());
+//			actividadesEscogidas.add(actividades.get(indice_random));
+//			cantidad--;
+//		}
+		
+		actividadesEscogidas.add(actividades.get(0));
+		actividadesEscogidas.add(actividades.get(1));
+		actividadesEscogidas.add(actividades.get(2));
 		
 		return actividadesEscogidas;
 		
@@ -87,7 +92,7 @@ public class ParqueAcuatico {
 	}
 	
 	private void imprimirColaEspera(){
-        System.out.println("La cola de espera de esta actividad es: " + colaEspera.toString());
+        System.out.println("La cola de espera del parque es: " + colaEspera.toString());
     }
 
 }
