@@ -21,6 +21,7 @@ public class ParqueAcuatico {
 		this.actividades.add(new Actividad("Actividad-4-3", 3));
 		this.actividades.add(new Actividad("Actividad-5-5", 5));
 		this.actividades.add(new Actividad("Actividad-6-4", 4));
+		this.actividades.add(new ActividadTumbonas());
 	}
 	
 	public ParqueAcuatico() {

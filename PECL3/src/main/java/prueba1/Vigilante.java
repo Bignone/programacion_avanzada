@@ -1,42 +1,52 @@
 package prueba1;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class Vigilante extends Thread {
 	
-	String id;
-	Actividade actividad;
+	String identificador;
+	public String getIdentificador() {
+		return identificador;
+	}
+
+	public void setIdentificador(String identificador) {
+		this.identificador = identificador;
+	}
+
+	BlockingQueue<Visitante> espacio;
 	
-	public Vigilante(String id, Actividade actividad) {
-		this.id = id;
-		this.actividad = actividad;
+	public Vigilante(String id, ArrayBlockingQueue<Visitante> espacio) {
+		this.identificador = id;
+		this.espacio = espacio;
+	}
+	
+	public boolean tienePermiso(Visitante visitante) {
+		return visitante.getEdad() < 18;
 	}
 	
 	public void run() {
-    	ArrayBlockingQueue<Visitor> colaEspera = this.actividad.getColaEspera();
-    	ArrayBlockingQueue<Visitor> espacio = this.actividad.getEspacioDentro();
-    	BlockingQueue<Visitor> espacioParaVisitor;
-    	
-    	while (true) {
-    		try {
-				Visitor visitorPrimero = colaEspera.take();
-				espacioParaVisitor = actividad.getEspacioParaVisitor(visitorPrimero);
-				if (espacioParaVisitor == null) {
-					colaEspera.remove(visitorPrimero);
-				} 
-				else if (espacioParaVisitor.remainingCapacity() > 0) {
-					
+		while (true) {
+			try {
+				sleep((long) ((int)(500) +(400*Math.random())));
+				for (Visitante visitante: espacio) {
+					if (tienePermiso(visitante)) {
+						visitante.setPermiso(true);
+					}
+					else {
+						System.out.println("Vigilante " + getIdentificador() + " echando al visitante " + visitante.getIdentificador() + " con edad " + visitante.getEdad());
+						System.out.println("----------------------------------------------------------------------------------------------------------");
+                                                visitante.interrupt(); // echar al visitante del espacio (cola)
+						
+					}
 				}
-				if (!espacio.offer(visitorPrimero)) {
-					
-				}
+				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-    	}
+			
+			
+		}
 	}
-    		
+
 }

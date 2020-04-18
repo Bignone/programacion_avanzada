@@ -1,64 +1,74 @@
 package prueba1;
 
+import prueba1.Actividad;
+import prueba1.ParqueAcuatico;
 import java.util.List;
 
 public class Visitante extends Thread {
-	
-	private String identificador;
-	private int edad;
-	private Visitante acompaniante;
-	private ParqueAcuatico parque;
-	private List<Actividad> actividades;
-	
-	public Visitante(String identificador, int edad, Visitante acompaniante, ParqueAcuatico parque) {
-		this.identificador = identificador;
-		this.edad = edad;
-		this.acompaniante = acompaniante;
-		this.parque = parque;
-	}
-	
-	public String toString() {
-		return this.identificador;
-	}
-	
-	public String getIdentificador() {
-		return identificador;
-	}
 
-	public void setIdentificador(String identificador) {
-		this.identificador = identificador;
-	}
+    private String identificador;
+    private int edad;
+    private Visitante acompaniante;
+    private ParqueAcuatico parque;
+    private List<Actividad> actividades;
+    private boolean permiso = false;
 
-	public int getEdad() {
-		return edad;
-	}
+    public Visitante(String identificador, int edad, Visitante acompaniante, ParqueAcuatico parque) {
+        this.identificador = identificador;
+        this.edad = edad;
+        this.acompaniante = acompaniante;
+        this.parque = parque;
+    }
 
-	public void setEdad(int edad) {
-		this.edad = edad;
-	}
+    public String toString() {
+        return this.identificador;
+    }
 
-	public Visitante getAcompaniante() {
-		return acompaniante;
-	}
+    public String getIdentificador() {
+        return identificador;
+    }
 
-	public void setAcompaniante(Visitante acompaniante) {
-		this.acompaniante = acompaniante;
-	}
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
+    }
 
-	public ParqueAcuatico getParque() {
-		return parque;
-	}
+    public int getEdad() {
+        return edad;
+    }
 
-	public void setParque(ParqueAcuatico parque) {
-		this.parque = parque;
-	}
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
 
-	public List<Actividad> getActividades() {
-		return actividades;
-	}
+    public Visitante getAcompaniante() {
+        return acompaniante;
+    }
 
-	public void setActividades(List<Actividad> actividades) {
-		this.actividades = actividades;
-	}
+    public void setAcompaniante(Visitante acompaniante) {
+        this.acompaniante = acompaniante;
+    }
 
+    public ParqueAcuatico getParque() {
+        return parque;
+    }
+
+    public void setParque(ParqueAcuatico parque) {
+        this.parque = parque;
+    }
+
+    public List<Actividad> getActividades() {
+        return actividades;
+    }
+
+    public void setActividades(List<Actividad> actividades) {
+        this.actividades = actividades;
+    }
+
+    public synchronized boolean getPermiso() {
+        return permiso;
+    }
+
+    public synchronized void setPermiso(boolean permiso) {
+        this.permiso = permiso;
+    }
 }
