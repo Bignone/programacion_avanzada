@@ -166,7 +166,7 @@ public class Actividad {
     public void salir(Adulto visitante) {
         getZonaActividad().remove(visitante);
         getSemaforo().release();
-        visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);// poner el permiso a false (que deambulen por ahi sin permiso)
+        visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
         imprimirColas();
     }
 

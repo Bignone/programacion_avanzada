@@ -19,18 +19,16 @@ public class ParqueAcuatico {
     }
     
     public void iniciarActividades() {
-//        this.actividades.add(new ActividadVestuario(registro));
-//        this.actividades.add(new ActividadTumbonas(registro));
-//        this.actividades.add(new ActividadPiscinaOlas(registro));
-//        this.actividades.add(new ActividadPiscinaNinos(registro));
-        this.actividades.add(new ActividadPiscinaGrande(this.registro));
+        this.actividades.add(new ActividadVestuario(registro));
+        this.actividades.add(new ActividadTumbonas(registro));
+        this.actividades.add(new ActividadPiscinaOlas(registro));
+        this.actividades.add(new ActividadPiscinaNinos(registro));
+        this.actividades.add(new ActividadPiscinaGrande(registro));
     }
 
     public RegistroVisitantes getRegistro() {
 		return registro;
 	}
-
-	
 
     public List<Actividad> escogerActividades(int cantidad) {
         List<Actividad> actividadesEscogidas = new ArrayList<>();
@@ -39,62 +37,64 @@ public class ParqueAcuatico {
         }
         actividadesEscogidas.add(actividades.get(0));
 
-//        while (cantidad > 0) {
-//            int indice_random = (int) (actividades.size() * Math.random());
-//            if (indice_random == 0) { // vestuario
-//                indice_random = 1;
-//            }
-//            actividadesEscogidas.add(actividades.get(indice_random));
-//            cantidad--;
-//        }
-//        actividadesEscogidas.add(actividades.get(0));
+        while (cantidad > 0) {
+            int indice_random = (int) (actividades.size() * Math.random());
+            if (indice_random == 0) { // vestuario
+                indice_random = 1;
+            }
+            actividadesEscogidas.add(actividades.get(indice_random));
+            cantidad--;
+        }
+        actividadesEscogidas.add(actividades.get(0));
 
         return actividadesEscogidas;
 
     }
 
-    public void entrar(Ninio visitante) {
+    public boolean entrar(Ninio visitante) {
+    	boolean resultado = false;
         try {
+        	visitante.setActividadActual("ParqueAcuatico-Cola");
             encolarNinio(visitante);
             imprimirColaEspera();
             semaforo.acquire(2);
             desencolarNinioColaEspera(visitante);
-
+            visitante.setActividadActual("ParqueAcuatico-Dentro");
+            resultado = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return resultado;
     }
 
-    public void entrar(Adulto visitante) {
+    public boolean entrar(Adulto visitante) {
+    	boolean resultado = false;
         try {
+        	visitante.setActividadActual("ParqueAcuatico-Cola");
             getColaEspera().offer(visitante);
             imprimirColaEspera();
             semaforo.acquire();
             getColaEspera().remove(visitante);
+            visitante.setActividadActual("ParqueAcuatico-Dentro");
+            resultado = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void disfrutar() {
-        try {
-            Thread.sleep((long) ((int) (5000) + (5000 * Math.random())));
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        return resultado;
     }
 
     public void salir(Adulto visitante) {
         getColaEspera().remove(visitante);
         imprimirColaEspera();
         semaforo.release();
+        visitante.setActividadActual("Fuera");
     }
 
     public void salir(Ninio visitante) {
         desencolarNinioColaEspera(visitante);
         imprimirColaEspera();
         semaforo.release();
+        visitante.setActividadActual("Fuera");
     }
 
     public synchronized void encolarNinio(Ninio visitante) {

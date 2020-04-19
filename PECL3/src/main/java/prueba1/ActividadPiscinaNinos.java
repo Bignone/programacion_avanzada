@@ -16,7 +16,6 @@ public class ActividadPiscinaNinos extends Actividad {
 
     public ActividadPiscinaNinos(RegistroVisitantes registro) {
         super(IDENTIFICADOR, CAPACIDAD, registro);
-
     }
 
     public Vigilante iniciarVigilante() {
@@ -25,19 +24,6 @@ public class ActividadPiscinaNinos extends Actividad {
 
     public long getTiempoActividad() {
         return (long) ((int) (1000) + (2000 * Math.random()));
-    }
-
-    public void salir(Ninio visitante) {
-        if (visitante.getPermisoActividad() == Permiso.CON_ACOMPANIANTE) {
-            desencolarNinio(visitante);
-            getSemaforo().release(2);
-        } else {
-            getZonaActividad().remove(visitante);
-            getZonaEsperaAcompanante().remove(visitante.getAcompaniante());
-            getSemaforo().release();
-        }
-        
-        visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);// poner el permiso a false (que deambulen por ahi sin permiso)
     }
 
 }

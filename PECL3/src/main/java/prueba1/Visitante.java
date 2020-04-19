@@ -8,7 +8,9 @@ public class Visitante extends Thread {
     private int edad;
     private Visitante acompaniante;
     private ParqueAcuatico parque;
-    private List<Actividad> actividades;
+    private String actividadActual = "Exterior";
+    private int conteoActividades = 0;
+	private List<Actividad> actividades;
     private Permiso permisoActividad = Permiso.NO_ESPECIFICADO;
 
     public Visitante(String identificador, int edad, Visitante acompaniante, ParqueAcuatico parque) {
@@ -45,8 +47,24 @@ public class Visitante extends Thread {
     public void setAcompaniante(Visitante acompaniante) {
         this.acompaniante = acompaniante;
     }
+    
+    public String getActividadActual() {
+		return actividadActual;
+	}
 
-    public ParqueAcuatico getParque() {
+	public void setActividadActual(String actividadActual) {
+		this.actividadActual = actividadActual;
+	}
+	
+    public int getConteoActividades() {
+		return conteoActividades;
+	}
+
+	public void aniadirConteoActividades() {
+		this.conteoActividades++;
+	}
+
+	public ParqueAcuatico getParque() {
         return parque;
     }
 

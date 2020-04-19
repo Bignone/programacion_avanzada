@@ -33,7 +33,7 @@ public class ActividadPiscinaOlas extends Actividad {
             getSemaforo().acquire(2);
             
             while(visitante.getPermisoActividad() == Permiso.NO_ESPECIFICADO){
-                Thread.sleep(500);
+                visitante.sleep(500);
             }
             
             if (visitante.getPermisoActividad() == Permiso.NO_PERMITIDO) {
@@ -70,17 +70,15 @@ public class ActividadPiscinaOlas extends Actividad {
             getSemaforo().acquire();
             
             while(visitante.getPermisoActividad() == Permiso.NO_ESPECIFICADO){
-                Thread.sleep(500);
+            	visitante.sleep(500);
             }
             
-            if (visitante.getPermisoActividad() == Permiso.PERMITIDO){
-            	barrera.await();
-            	getColaEspera().remove(visitante);
-                getZonaActividad().offer(visitante);
+            if (visitante.getPermisoActividad() != Permiso.PERMITIDO) {
+                throw new SecurityException();
             }
-            else {
-                    throw new SecurityException();
-                }
+        	barrera.await();
+        	getColaEspera().remove(visitante);
+            getZonaActividad().offer(visitante);
             
             resultado= true;
             

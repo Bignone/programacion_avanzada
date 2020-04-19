@@ -9,7 +9,6 @@ public class ActividadTumbonas extends Actividad {
 	
 	public ActividadTumbonas(RegistroVisitantes registro) {
 		super(IDENTIFICADOR, CAPACIDAD, CAPACIDAD, ES_COLA_FIFO, registro);
-		
 	}
 	
 	public long getTiempoActividad() {
