@@ -29,13 +29,16 @@ public class Vigilante extends Thread {
     	}
         return tipoPermiso;
     }
+    
+    public long getTiempoVigilancia() {
+        return (long) ((int) (500) + (400 * Math.random()));
+    }
 
     public void run() {
         while (true) {
             try {
-                sleep((long) ((int) (500) + (400 * Math.random())));
                 for (Visitante visitante : espacio) {
-                	
+                	sleep(getTiempoVigilancia());
                 	Permiso permiso = tipoPermiso(visitante);
                 	visitante.setPermisoActividad(permiso);
                     if (permiso == Permiso.NO_PERMITIDO) {

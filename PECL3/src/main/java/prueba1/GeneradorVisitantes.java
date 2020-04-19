@@ -13,10 +13,21 @@ public class GeneradorVisitantes extends Thread {
 		return edad < 18;
 	}
 	
-	private Acompaniante crearAcompannante(int idHijo, int contador) {
+	public Acompaniante crearAcompannante(int idHijo, int contador) {
 		int edad = (int) (32 * Math.random() + 18);
 		String identificador = "ID" + contador + "-" + edad + "-" + idHijo;
 		return new Acompaniante(identificador, edad, parque);
+	}
+	
+	public Adulto crearAdulto(int contador, int edad) {
+		String identificador = "ID" + contador + "-" + edad;
+		return new Adulto(identificador, edad, parque);
+	}
+	
+	public Ninio crearNinio(int contador, int edad) {
+		String identificador = "ID" + contador + "-" + edad + "-" + (contador+1);
+		Acompaniante acompaniante = crearAcompannante(contador, contador+1);
+		return new Ninio(identificador, edad, acompaniante, parque);
 	}
 	
 	public void run() {
@@ -46,7 +57,7 @@ public class GeneradorVisitantes extends Thread {
 				if (acompaniante != null) {
 					System.out.println("Starting acompaniante: " + acompaniante.toString());
 					acompaniante.start();
-					break;
+					//break;
 				}
 				contador++;
 			}

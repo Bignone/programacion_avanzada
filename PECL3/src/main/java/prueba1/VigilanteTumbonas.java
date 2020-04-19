@@ -8,8 +8,16 @@ public class VigilanteTumbonas extends Vigilante {
 		super(id, espacio);
 	}
 	
-	public boolean tienePermiso(Visitante visitante) {
-		return visitante.getEdad() >= 15;
-	}
+	public long getTiempoVigilancia() {
+        return (long) ((int) (500) + (400 * Math.random()));
+    }
+	
+	public Permiso tipoPermiso(Visitante visitante) {
+    	Permiso tipoPermiso = Permiso.NO_PERMITIDO;
+    	if (visitante.getEdad() >= 15) {
+    		tipoPermiso = Permiso.PERMITIDO;
+    	}
+        return tipoPermiso;
+    }
 
 }

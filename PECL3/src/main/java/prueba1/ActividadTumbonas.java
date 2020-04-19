@@ -6,13 +6,9 @@ public class ActividadTumbonas extends Actividad {
 	private static int CAPACIDAD = 20;
 	private static String IDENTIFICADOR = "ActividadTumbonas";
 	private static boolean ES_COLA_FIFO = false;
-	// TODO: valorar el espacio de las actividades
-	// TODO: valorar si valen los metodos del padre entrar, salir, etc
-	// TODO: re-implementar el entrar(Ninio) cuando zonas zonas separadas
-	
 	
 	public ActividadTumbonas() {
-		super(IDENTIFICADOR, CAPACIDAD, ES_COLA_FIFO);
+		super(IDENTIFICADOR, CAPACIDAD, CAPACIDAD, ES_COLA_FIFO);
 		
 	}
 	

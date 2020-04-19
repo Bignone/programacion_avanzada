@@ -8,6 +8,10 @@ public class VigilantePiscinaOlas extends Vigilante {
 		super(id, espacio);
 	}
 	
+	public long getTiempoVigilancia() {
+        return 1000;
+    }
+	
 	public Permiso tipoPermiso(Visitante visitante) {
     	Permiso tipoPermiso = Permiso.NO_PERMITIDO;
     	if (visitante.getEdad() >= 6 && visitante.getEdad() <= 10) {

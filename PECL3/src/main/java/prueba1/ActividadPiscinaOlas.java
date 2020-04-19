@@ -27,34 +27,37 @@ public class ActividadPiscinaOlas extends Actividad {
 	
 	public boolean entrar(Ninio visitante) {
 		boolean resultado = false;
+		int espaciosOcupados = 2;
         try {
             visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
             encolarNinio(visitante);
-            imprimirColaEspera();
+            imprimirColas();
             getSemaforo().acquire(2);
             
             while(visitante.getPermisoActividad() == Permiso.NO_ESPECIFICADO){
                 Thread.sleep(500);
             }
             
-            if (visitante.getPermisoActividad() == Permiso.CON_ACOMPANIANTE) {
+            if (visitante.getPermisoActividad() == Permiso.NO_PERMITIDO) {
+                throw new SecurityException();
+            } else if (visitante.getPermisoActividad() == Permiso.CON_ACOMPANIANTE) {
             	encolarNinioActividad(visitante);
             } else if (visitante.getPermisoActividad() == Permiso.PERMITIDO) {
+            	espaciosOcupados = 1;
             	getSemaforo().release();
             	barrera.await();
-            	getColaEspera().remove(visitante);
+            	desencolarNinioColaEspera(visitante);
                 getZonaActividad().offer(visitante);
-            } else {
-            	throw new SecurityException();
+                getZonaEsperaAcompanante().offer(visitante.getAcompaniante());
             }
             
             resultado = true;
         } catch (SecurityException | InterruptedException | BrokenBarrierException e) {
             System.out.println("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
             desencolarNinioColaEspera(visitante);
-            getSemaforo().release(2);
-            
-            imprimirColaEspera();
+            getSemaforo().release(espaciosOcupados);
+            visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+            imprimirColas();
             
         }
         return resultado;
@@ -65,7 +68,7 @@ public class ActividadPiscinaOlas extends Actividad {
         try {
             visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
             getColaEspera().offer(visitante);
-            imprimirColaEspera();
+            imprimirColas();
             getSemaforo().acquire();
             
             while(visitante.getPermisoActividad() == Permiso.NO_ESPECIFICADO){
@@ -86,23 +89,11 @@ public class ActividadPiscinaOlas extends Actividad {
         } catch (SecurityException | BrokenBarrierException e) {
         	getColaEspera().remove(visitante);
         	getSemaforo().release();
-            
+        	visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+            imprimirColas();
         }
         return resultado;
 	}
-    
-    public void salir(Ninio visitante) {
-    	if (visitante.getPermisoActividad() == Permiso.CON_ACOMPANIANTE) {
-    		desencolarNinio(visitante);
-    		getSemaforo().release(2);
-        } else {
-        	getZonaActividad().remove(visitante);
-        	getSemaforo().release(1);
-        }
-        
-        
-        visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);// poner el permiso a false (que deambulen por ahi sin permiso)
-    }
 
 
 }

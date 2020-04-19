@@ -17,10 +17,10 @@ public class Ninio extends Visitante {
 			setActividades(getParque().escogerActividades(cantidadActividades));
 			
 			for (Actividad actividad: getActividades()) {
-				System.out.println("Entrando a la actividad: " + actividad.toString());
+				System.out.println("Entrando a la actividad "+getIdentificador()+": " + actividad.toString());
 				boolean dentro = actividad.entrar(this);				
 				if (dentro) {
-					actividad.disfrutar();
+					actividad.disfrutar(this);
 					actividad.salir(this);
 				}
 			}

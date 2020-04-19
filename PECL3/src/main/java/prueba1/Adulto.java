@@ -8,7 +8,6 @@ public class Adulto extends Visitante {
 	
 	public void run() {
 		try {
-			sleep((long) ((int)(500) +(400*Math.random())));
 			System.out.println("Entrando al parque: " + toString());
 			getParque().entrar(this);
 			boolean dentroParque = true; // viene de getParque().entrar()
@@ -19,10 +18,10 @@ public class Adulto extends Visitante {
 				setActividades(getParque().escogerActividades(cantidadActividades));
 				
 				for (Actividad actividad: getActividades()) {
-					System.out.println("Entrando a la actividad: " + actividad.toString());
+					System.out.println("Entrando a la actividad "+getIdentificador()+": " + actividad.toString());
 					boolean dentro = actividad.entrar(this);
 					if (dentro) {
-						actividad.disfrutar();
+						actividad.disfrutar(this);
 						actividad.salir(this);
 					}
 				}

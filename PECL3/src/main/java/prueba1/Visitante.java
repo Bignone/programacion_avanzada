@@ -13,7 +13,7 @@ public class Visitante extends Thread {
     private ParqueAcuatico parque;
     private List<Actividad> actividades;
     private int permiso = 0;//si vale 0 esta esperando el permiso si es 1 se lo han concedido y si es 2 se lo han denegado
-    private Permiso permisoActividad = Permiso.NO_PERMITIDO;
+    private Permiso permisoActividad = Permiso.NO_ESPECIFICADO;
 
     public Visitante(String identificador, int edad, Visitante acompaniante, ParqueAcuatico parque) {
         this.identificador = identificador;
