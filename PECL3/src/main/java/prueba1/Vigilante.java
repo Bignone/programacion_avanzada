@@ -6,6 +6,7 @@ import java.util.concurrent.BlockingQueue;
 public class Vigilante extends Thread {
 
     String identificador;
+    BlockingQueue<Visitante> colaEspera;
 
     public String getIdentificador() {
         return identificador;
@@ -15,11 +16,11 @@ public class Vigilante extends Thread {
         this.identificador = identificador;
     }
 
-    BlockingQueue<Visitante> espacio;
+    
 
-    public Vigilante(String id, ArrayBlockingQueue<Visitante> espacio) {
+    public Vigilante(String id, ArrayBlockingQueue<Visitante> colaEspera) {
         this.identificador = id;
-        this.espacio = espacio;
+        this.colaEspera = colaEspera;
     }
 
     public Permiso tipoPermiso(Visitante visitante) {
@@ -37,7 +38,7 @@ public class Vigilante extends Thread {
     public void run() {
         while (true) {
             try {
-                for (Visitante visitante : espacio) {
+                for (Visitante visitante : colaEspera) {
                 	sleep(getTiempoVigilancia());
                 	Permiso permiso = tipoPermiso(visitante);
                 	visitante.setPermisoActividad(permiso);

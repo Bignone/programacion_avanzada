@@ -14,8 +14,8 @@ public class ActividadPiscinaNinos extends Actividad {
     private static int CAPACIDAD = 15;
     private static String IDENTIFICADOR = "ActividadPiscinaNinos";
 
-    public ActividadPiscinaNinos() {
-        super(IDENTIFICADOR, CAPACIDAD);
+    public ActividadPiscinaNinos(RegistroVisitantes registro) {
+        super(IDENTIFICADOR, CAPACIDAD, registro);
 
     }
 

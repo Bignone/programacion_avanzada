@@ -6,8 +6,6 @@
 package prueba1;
 
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -15,8 +13,8 @@ import java.util.logging.Logger;
  */
 public class VigilantePiscinaNinos extends Vigilante {
     
-    public VigilantePiscinaNinos(String id, ArrayBlockingQueue<Visitante> espacio) {
-		super(id, espacio);
+    public VigilantePiscinaNinos(String id, ArrayBlockingQueue<Visitante> colaEspera) {
+		super(id, colaEspera);
 	}
     
     public long getTiempoVigilancia() {

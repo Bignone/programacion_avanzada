@@ -11,8 +11,8 @@ public class ActividadVestuario extends Actividad {
     private ArrayBlockingQueue<Visitante> zonaActividadAdultos;
     private static boolean ES_COLA_FIFO = true;
 
-    public ActividadVestuario() {
-        super(IDENTIFICADOR, CAPACIDAD_TOTAL, CAPACIDAD_NINIOS, ES_COLA_FIFO);
+    public ActividadVestuario(RegistroVisitantes registro) {
+        super(IDENTIFICADOR, CAPACIDAD_TOTAL, CAPACIDAD_NINIOS, ES_COLA_FIFO, registro);
         this.zonaActividadAdultos = new ArrayBlockingQueue<>(CAPACIDAD_ADULTOS, true);
     }
 

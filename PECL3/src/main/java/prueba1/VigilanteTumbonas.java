@@ -4,8 +4,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 public class VigilanteTumbonas extends Vigilante {
 	
-	public VigilanteTumbonas(String id, ArrayBlockingQueue<Visitante> espacio) {
-		super(id, espacio);
+	public VigilanteTumbonas(String id, ArrayBlockingQueue<Visitante> colaEspera) {
+		super(id, colaEspera);
 	}
 	
 	public long getTiempoVigilancia() {

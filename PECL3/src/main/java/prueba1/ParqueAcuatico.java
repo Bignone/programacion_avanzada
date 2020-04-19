@@ -12,17 +12,25 @@ public class ParqueAcuatico {
     private Semaphore semaforo = new Semaphore(NUM_VISITANTES, true);
     private List<Actividad> actividades = new ArrayList<>();
     private BlockingQueue<Visitante> colaEspera = new ArrayBlockingQueue<>(5000, true);
-
-    public void iniciarActividades() {
-        this.actividades.add(new ActividadVestuario());
-        this.actividades.add(new ActividadTumbonas());
-        this.actividades.add(new ActividadPiscinaOlas());
-       this.actividades.add(new ActividadPiscinaNinos());
-    }
+    private RegistroVisitantes registro = new RegistroVisitantes();
 
     public ParqueAcuatico() {
         iniciarActividades();
     }
+    
+    public void iniciarActividades() {
+//        this.actividades.add(new ActividadVestuario(registro));
+//        this.actividades.add(new ActividadTumbonas(registro));
+//        this.actividades.add(new ActividadPiscinaOlas(registro));
+//        this.actividades.add(new ActividadPiscinaNinos(registro));
+        this.actividades.add(new ActividadPiscinaGrande(this.registro));
+    }
+
+    public RegistroVisitantes getRegistro() {
+		return registro;
+	}
+
+	
 
     public List<Actividad> escogerActividades(int cantidad) {
         List<Actividad> actividadesEscogidas = new ArrayList<>();
@@ -31,19 +39,15 @@ public class ParqueAcuatico {
         }
         actividadesEscogidas.add(actividades.get(0));
 
-		while (cantidad > 0) {
-			int indice_random = (int) (actividades.size() * Math.random());
-			if (indice_random == 0) { // vestuario
-				indice_random = 1;
-			}
-			actividadesEscogidas.add(actividades.get(indice_random));
-			cantidad--;
-		}
-        
-//        actividadesEscogidas.add(actividades.get(1));
-//        actividadesEscogidas.add(actividades.get(2));
-        
-        actividadesEscogidas.add(actividades.get(0));
+//        while (cantidad > 0) {
+//            int indice_random = (int) (actividades.size() * Math.random());
+//            if (indice_random == 0) { // vestuario
+//                indice_random = 1;
+//            }
+//            actividadesEscogidas.add(actividades.get(indice_random));
+//            cantidad--;
+//        }
+//        actividadesEscogidas.add(actividades.get(0));
 
         return actividadesEscogidas;
 

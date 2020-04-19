@@ -1,7 +1,5 @@
 package prueba1;
 
-import static java.lang.Thread.sleep;
-
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
@@ -12,8 +10,8 @@ public class ActividadPiscinaOlas extends Actividad {
 	CyclicBarrier barrera = new CyclicBarrier(2);
 	
 	
-	public ActividadPiscinaOlas() {
-		super(IDENTIFICADOR, CAPACIDAD);
+	public ActividadPiscinaOlas(RegistroVisitantes registro) {
+		super(IDENTIFICADOR, CAPACIDAD, registro);
 		
 	}
 	

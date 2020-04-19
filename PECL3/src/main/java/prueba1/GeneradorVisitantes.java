@@ -4,13 +4,15 @@ public class GeneradorVisitantes extends Thread {
 	
 	private static int NUM_VISITANTES = 100;
 	private ParqueAcuatico parque;
+	private RegistroVisitantes registro;
 	
 	public GeneradorVisitantes(ParqueAcuatico parque) {
 		this.parque = parque;
+		this.registro = parque.getRegistro();
 	}
 	
 	private boolean necesitaAcompanniante(int edad) {
-		return edad < 18;
+		return edad < 11;
 	}
 	
 	public Acompaniante crearAcompannante(int idHijo, int contador) {
@@ -51,10 +53,11 @@ public class GeneradorVisitantes extends Thread {
 					identificador = "ID" + contador + "-" + edad;
 					visitante = new Adulto(identificador, edad, parque);
 				}
-				
+				registro.aniadirVisitante(visitante);
 				System.out.println("Starting visitante: " + visitante.toString());
 				visitante.start();
 				if (acompaniante != null) {
+					registro.aniadirVisitante(acompaniante);
 					System.out.println("Starting acompaniante: " + acompaniante.toString());
 					acompaniante.start();
 					//break;

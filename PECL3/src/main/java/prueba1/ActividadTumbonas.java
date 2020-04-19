@@ -7,8 +7,8 @@ public class ActividadTumbonas extends Actividad {
 	private static String IDENTIFICADOR = "ActividadTumbonas";
 	private static boolean ES_COLA_FIFO = false;
 	
-	public ActividadTumbonas() {
-		super(IDENTIFICADOR, CAPACIDAD, CAPACIDAD, ES_COLA_FIFO);
+	public ActividadTumbonas(RegistroVisitantes registro) {
+		super(IDENTIFICADOR, CAPACIDAD, CAPACIDAD, ES_COLA_FIFO, registro);
 		
 	}
 	

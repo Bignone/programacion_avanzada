@@ -8,7 +8,7 @@ public class ActividadTumbonasTest {
 	public static void main(String[] args) {
 		ParqueAcuatico parque = new ParqueAcuatico();
 		List<Actividad> actividades = new ArrayList<>();
-		actividades.add(new ActividadTumbonas());
+		actividades.add(new ActividadTumbonas(parque.getRegistro()));
 		parque.setActividades(actividades);
 		
 		GeneradorVisitantes generadorVisitantes = new GeneradorVisitantes(parque);
