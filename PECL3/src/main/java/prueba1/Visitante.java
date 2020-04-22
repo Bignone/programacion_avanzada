@@ -12,12 +12,23 @@ public class Visitante extends Thread {
     private int conteoActividades = 0;
 	private List<Actividad> actividades;
     private Permiso permisoActividad = Permiso.NO_ESPECIFICADO;
+    private TicketTobogan ticket;
+            
 
     public Visitante(String identificador, int edad, Visitante acompaniante, ParqueAcuatico parque) {
         this.identificador = identificador;
         this.edad = edad;
         this.acompaniante = acompaniante;
         this.parque = parque;
+        this.ticket = null;
+    }
+
+    public TicketTobogan getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(TicketTobogan ticket) {
+        this.ticket = ticket;
     }
 
     public String toString() {

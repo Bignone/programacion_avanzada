@@ -5,8 +5,8 @@ import java.util.concurrent.BlockingQueue;
 
 public class Vigilante extends Thread {
 
-    String identificador;
-    BlockingQueue<Visitante> colaEspera;
+    private String identificador;
+    private BlockingQueue<Visitante> colaEspera;
 
     public String getIdentificador() {
         return identificador;
@@ -54,5 +54,15 @@ public class Vigilante extends Thread {
 
         }
     }
+
+	public BlockingQueue<Visitante> getColaEspera() {
+		return colaEspera;
+	}
+
+	public void setColaEspera(BlockingQueue<Visitante> colaEspera) {
+		this.colaEspera = colaEspera;
+	}
+    
+    
 
 }

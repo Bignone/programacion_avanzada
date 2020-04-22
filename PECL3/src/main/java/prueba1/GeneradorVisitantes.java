@@ -2,7 +2,7 @@ package prueba1;
 
 public class GeneradorVisitantes extends Thread {
 	
-	private static int NUM_VISITANTES = 100;
+	private static int NUM_VISITANTES = 20;
 	private ParqueAcuatico parque;
 	private RegistroVisitantes registro;
 	
@@ -60,7 +60,7 @@ public class GeneradorVisitantes extends Thread {
 					registro.aniadirVisitante(acompaniante);
 					System.out.println("Starting acompaniante: " + acompaniante.toString());
 					acompaniante.start();
-					//break;
+					
 				}
 				contador++;
 			}

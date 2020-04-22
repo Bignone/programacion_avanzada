@@ -1,6 +1,8 @@
 package prueba1;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -9,24 +11,60 @@ public class RegistroVisitantes {
 	private Map<String, Visitante> visitantes = new HashMap<>();
 	private Map<String, Integer> usuariosEnZonaActual = new ConcurrentHashMap<>();
 	private Map<String, Integer> usuariosEnZonaAcumulado = new ConcurrentHashMap<>();
+	private Map<String, ArrayList<String>> usuariosEnZonaActualIds = new ConcurrentHashMap<>();
 	private int numeroAdultos = 0;
 	private int numeroNinios = 0;
-	
-	public void registrarZonaActividad(String identificador) {
-		this.usuariosEnZonaActual.put(identificador, 0);
-		this.usuariosEnZonaAcumulado.put(identificador, 0);
+
+    public Map<String, Integer> getUsuariosEnZonaActual() {
+        return usuariosEnZonaActual;
+    }
+
+    public void setUsuariosEnZonaActual(Map<String, Integer> usuariosEnZonaActual) {
+        this.usuariosEnZonaActual = usuariosEnZonaActual;
+    }
+
+    public Map<String, Integer> getUsuariosEnZonaAcumulado() {
+        return usuariosEnZonaAcumulado;
+    }
+
+    public void setUsuariosEnZonaAcumulado(Map<String, Integer> usuariosEnZonaAcumulado) {
+        this.usuariosEnZonaAcumulado = usuariosEnZonaAcumulado;
+    }
+
+    public ArrayList<String> getColaParque() {
+        return colaParque;
+    }
+
+    public void setColaParque(ArrayList<String> colaParque) {
+        this.colaParque = colaParque;
+    }
+	private ArrayList<String> colaParque = new ArrayList<String>();
+                
+	public void registrarZonaActividad(String identificadorActividad) {
+		this.usuariosEnZonaActual.put(identificadorActividad, 0);
+		this.usuariosEnZonaAcumulado.put(identificadorActividad, 0);
+        
 	}
 	
-	public void aniadirVisitanteZonaActividad(String identificador) {
-		int cantidadActual = this.usuariosEnZonaActual.get(identificador) + 1;
-		this.usuariosEnZonaActual.put(identificador, cantidadActual);
-		int cantidadAcumulado = this.usuariosEnZonaAcumulado.get(identificador) + 1;
-		this.usuariosEnZonaAcumulado.put(identificador, cantidadAcumulado);
+	public void registrarZonasActividad(String identificadorActividad, List<String> identificadoresAreas) {
+		for (String identificadorArea: identificadoresAreas) {
+			this.usuariosEnZonaActualIds.put(identificadorActividad+identificadorArea, new ArrayList<String>());
+		}
+        
 	}
 	
-	public void eliminarVisitanteZonaActividad(String identificador) {
-		int cantidadActual = this.usuariosEnZonaActual.get(identificador) - 1;
-		this.usuariosEnZonaActual.put(identificador, cantidadActual);
+	public void aniadirVisitanteZonaActividad(String identificadorActividad, String identificadorArea, String identificadorUsuario) {
+		int cantidadActual = this.usuariosEnZonaActual.get(identificadorActividad) + 1;
+		this.usuariosEnZonaActual.put(identificadorActividad, cantidadActual);
+		int cantidadAcumulado = this.usuariosEnZonaAcumulado.get(identificadorActividad) + 1;
+		this.usuariosEnZonaAcumulado.put(identificadorActividad, cantidadAcumulado);
+        this.usuariosEnZonaActualIds.get(identificadorActividad+identificadorArea).add(identificadorUsuario);
+	}
+	
+	public void eliminarVisitanteZonaActividad(String identificadorActividad, String identificadorArea, String identificadorUsuario) {
+		int cantidadActual = this.usuariosEnZonaActual.get(identificadorActividad) - 1;
+		this.usuariosEnZonaActual.put(identificadorActividad, cantidadActual);
+        this.usuariosEnZonaActualIds.get(identificadorActividad+identificadorArea).remove(identificadorUsuario);
 	}
 	
 	public Visitante buscarVisitante(String identificador) {
@@ -49,6 +87,8 @@ public class RegistroVisitantes {
 			numeroAdultos++;
 		}
 	}
+        
+        
 	
 	public int getNumeroAdultos() {
 		return numeroAdultos;

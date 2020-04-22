@@ -8,7 +8,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class VigilantePiscinaGrande extends Vigilante {
 
-    BlockingQueue<Visitante> zonaActividad;
+	private BlockingQueue<Visitante> zonaActividad;
 
     public VigilantePiscinaGrande(String id, ArrayBlockingQueue<Visitante> colaEspera, ArrayBlockingQueue<Visitante> zonaActividad) {
         super(id, colaEspera);
@@ -48,7 +48,7 @@ public class VigilantePiscinaGrande extends Vigilante {
         Visitante visitanteParaExpulsar;
         while (true) {
             try {
-                for (Visitante visitante : colaEspera) { 
+                for (Visitante visitante : getColaEspera()) { 
                     sleep(getTiempoVigilancia());
                     Permiso permiso = tipoPermiso(visitante);
                     visitante.setPermisoActividad(permiso);
@@ -74,22 +74,6 @@ public class VigilantePiscinaGrande extends Vigilante {
 
     public void setZonaActividad(BlockingQueue<Visitante> zonaActividad) {
         this.zonaActividad = zonaActividad;
-    }
-
-    public String getIdentificador() {
-        return identificador;
-    }
-
-    public void setIdentificador(String identificador) {
-        this.identificador = identificador;
-    }
-
-    public BlockingQueue<Visitante> getEspacio() {
-        return colaEspera;
-    }
-
-    public void setEspacio(BlockingQueue<Visitante> espacio) {
-        this.colaEspera = espacio;
     }
 
 }

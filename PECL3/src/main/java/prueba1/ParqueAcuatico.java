@@ -13,6 +13,7 @@ public class ParqueAcuatico {
     private List<Actividad> actividades = new ArrayList<>();
     private BlockingQueue<Visitante> colaEspera = new ArrayBlockingQueue<>(5000, true);
     private RegistroVisitantes registro = new RegistroVisitantes();
+    private ActividadPiscinaGrande piscinaGrande;
 
     public ParqueAcuatico() {
         iniciarActividades();
@@ -23,7 +24,9 @@ public class ParqueAcuatico {
         this.actividades.add(new ActividadTumbonas(registro));
         this.actividades.add(new ActividadPiscinaOlas(registro));
         this.actividades.add(new ActividadPiscinaNinos(registro));
-        this.actividades.add(new ActividadPiscinaGrande(registro));
+        this.piscinaGrande = new ActividadPiscinaGrande(registro);
+        this.actividades.add(piscinaGrande);
+        this.actividades.add(new ActividadTobogan(registro, piscinaGrande));
     }
 
     public RegistroVisitantes getRegistro() {
@@ -54,15 +57,15 @@ public class ParqueAcuatico {
     public boolean entrar(Ninio visitante) {
     	boolean resultado = false;
         try {
-        	visitante.setActividadActual("ParqueAcuatico-Cola");
+        	visitante.setActividadActual("ParqueAcuatico");
             encolarNinio(visitante);
             imprimirColaEspera();
             semaforo.acquire(2);
             desencolarNinioColaEspera(visitante);
-            visitante.setActividadActual("ParqueAcuatico-Dentro");
             resultado = true;
         } catch (Exception e) {
             e.printStackTrace();
+            visitante.setActividadActual("Fuera");
         }
         return resultado;
     }
@@ -70,15 +73,15 @@ public class ParqueAcuatico {
     public boolean entrar(Adulto visitante) {
     	boolean resultado = false;
         try {
-        	visitante.setActividadActual("ParqueAcuatico-Cola");
+        	visitante.setActividadActual("ParqueAcuatico");
             getColaEspera().offer(visitante);
             imprimirColaEspera();
             semaforo.acquire();
             getColaEspera().remove(visitante);
-            visitante.setActividadActual("ParqueAcuatico-Dentro");
             resultado = true;
         } catch (Exception e) {
             e.printStackTrace();
+            visitante.setActividadActual("Fuera");
         }
         return resultado;
     }
@@ -108,7 +111,7 @@ public class ParqueAcuatico {
     }
 
     private void imprimirColaEspera() {
-        System.out.println("La cola de espera del parque es: " + colaEspera.toString());
+        
     }
 
     public static int getNUM_VISITANTES() {
