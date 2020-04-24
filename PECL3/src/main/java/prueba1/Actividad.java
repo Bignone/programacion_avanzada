@@ -63,7 +63,9 @@ public class Actividad {
     }
 
     public Vigilante iniciarVigilante() {
-        return new Vigilante("VigilanteDefault", getColaEspera());
+    	Vigilante vigilante = new Vigilante("VigilanteDefault", getColaEspera());
+    	registro.aniadirMonitorEnZona(getIdentificador(), vigilante.getIdentificador());
+        return vigilante;
     }
 
     public long getTiempoActividad() {
@@ -79,12 +81,12 @@ public class Actividad {
     }
 
     public synchronized void encolarNinio(Ninio visitante) {
-    	visitante.setActividadActual(getIdentificador());
-    	visitante.getAcompaniante().setActividadActual(getIdentificador());
         getColaEspera().offer(visitante);
         getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
         getColaEspera().offer(visitante.getAcompaniante());
         getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getAcompaniante().getIdentificador());
+        visitante.setActividadActual(getIdentificador());
+    	visitante.getAcompaniante().setActividadActual(getIdentificador());
     }
 
     public synchronized void desencolarNinioColaEspera(Ninio visitante) {
@@ -158,9 +160,9 @@ public class Actividad {
     public boolean entrar(Adulto visitante) throws InterruptedException {
         boolean resultado = false;
         try {
-        	visitante.setActividadActual(getIdentificador());
             visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
             getColaEspera().offer(visitante);
+            visitante.setActividadActual(getIdentificador());
             getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
             imprimirColas();
             getSemaforo().acquire();

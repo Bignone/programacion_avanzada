@@ -28,7 +28,9 @@ public class ActividadPiscinaOlas extends Actividad {
     }
 
     public Vigilante iniciarVigilante() {
-        return new VigilantePiscinaOlas("VigilantePisinaOlas", getColaEspera());
+    	Vigilante vigilante = new VigilantePiscinaOlas("VigilantePisinaOlas", getColaEspera());
+    	getRegistro().aniadirMonitorEnZona(getIdentificador(), vigilante.getIdentificador());
+        return vigilante;
     }
 
     public long getTiempoActividad() {
@@ -79,9 +81,9 @@ public class ActividadPiscinaOlas extends Actividad {
     public boolean entrar(Adulto visitante) throws InterruptedException {
         boolean resultado = false;
         try {
-        	visitante.setActividadActual(getIdentificador());
             visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
             getColaEspera().offer(visitante);
+            visitante.setActividadActual(getIdentificador());
             getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), COLA_ESPERA, visitante.getIdentificador());
             imprimirColas();
             getSemaforo().acquire();

@@ -84,9 +84,10 @@ public class ActividadVestuario extends Actividad {
     public boolean entrar(Adulto visitante) throws InterruptedException {
         boolean resultado = false;
         try {
-        	visitante.setActividadActual(getIdentificador());
+        	
             visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
             getColaEspera().offer(visitante);
+            visitante.setActividadActual(getIdentificador());
             getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
             imprimirColas();
             getSemaforo().acquire();

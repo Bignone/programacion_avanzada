@@ -24,8 +24,8 @@ public class ActividadTobogan extends Actividad {
     public ActividadTobogan(RegistroVisitantes registro, ActividadPiscinaGrande piscinaGrande) {
         super(IDENTIFICADOR, CAPACIDAD, registro);
         this.piscinaGrande = piscinaGrande;
-        this.vigilante2 = iniciarVigilante();
-        this.vigilante3 = iniciarVigilante();
+        this.vigilante2 = iniciarVigilante("VigilanteToboganB");
+        this.vigilante3 = iniciarVigilante("VigilanteToboganC");
         iniciarVigilantes();
     }
     
@@ -41,7 +41,15 @@ public class ActividadTobogan extends Actividad {
     }
 
     public Vigilante iniciarVigilante() {
-        return new VigilanteTobogan("VigilanteTobogan", getColaEspera());
+    	Vigilante vigilante =  new VigilanteTobogan("VigilanteToboganA", getColaEspera());
+    	getRegistro().aniadirMonitorEnZona(getIdentificador(), vigilante.getIdentificador());
+        return vigilante;
+    }
+    
+    public Vigilante iniciarVigilante(String identificador) {
+    	Vigilante vigilante =  new VigilanteTobogan(identificador, getColaEspera());
+    	getRegistro().aniadirMonitorEnZona(getIdentificador(), vigilante.getIdentificador());
+        return vigilante;
     }
 
     public long getTiempoActividad() {
@@ -57,10 +65,11 @@ public class ActividadTobogan extends Actividad {
         boolean resultado = false;
         try {
             visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
-            visitante.setActividadActual(getIdentificador());
-            visitante.getAcompaniante().setActividadActual(getIdentificador());
+            
             getColaEspera().offer(visitante);
             getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
+            visitante.setActividadActual(getIdentificador());
+            visitante.getAcompaniante().setActividadActual(getIdentificador());
             getPiscinaGrande().getZonaEsperaAcompanante().offer(visitante.getAcompaniante());
             getRegistro().aniadirVisitanteZonaActividad(getPiscinaGrande().getIdentificador(), ZONA_ESPERA,visitante.getAcompaniante().getIdentificador());
             getPiscinaGrande().getSemaforo().acquire();
@@ -92,9 +101,9 @@ public class ActividadTobogan extends Actividad {
     public boolean entrar(Adulto visitante) throws InterruptedException {
         boolean resultado = false;
         try {
-        	visitante.setActividadActual(getIdentificador());
             visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
             getColaEspera().offer(visitante);
+            visitante.setActividadActual(getIdentificador());
             getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
             getPiscinaGrande().getSemaforo().acquire();
             imprimirColas();
@@ -158,16 +167,16 @@ public class ActividadTobogan extends Actividad {
         getColaEspera().remove(visitante);
         getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
         if (visitante.getTicket() == TicketTobogan.TOBOGAN_A) {
-        	visitante.setActividadActual("ToboganA");
             getZonaActividad().offer(visitante); //Tobogan A
+            visitante.setActividadActual("ToboganA");
             getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD_A, visitante.getIdentificador());
         } else if (visitante.getTicket() == TicketTobogan.TOBOGAN_B) {
-        	visitante.setActividadActual("ToboganB");
             getToboganB().offer(visitante);
+            visitante.setActividadActual("ToboganB");
             getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD_B, visitante.getIdentificador());
         } else {
-        	visitante.setActividadActual("ToboganC");
             getToboganC().offer(visitante);
+            visitante.setActividadActual("ToboganC");
             getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD_C, visitante.getIdentificador());
         }
     }

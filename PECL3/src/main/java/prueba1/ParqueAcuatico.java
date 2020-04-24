@@ -57,8 +57,8 @@ public class ParqueAcuatico {
     public boolean entrar(Ninio visitante) {
     	boolean resultado = false;
         try {
-        	visitante.setActividadActual("ParqueAcuatico");
             encolarNinio(visitante);
+            visitante.setActividadActual("ParqueAcuatico");
             imprimirColaEspera();
             semaforo.acquire(2);
             desencolarNinioColaEspera(visitante);
@@ -73,8 +73,8 @@ public class ParqueAcuatico {
     public boolean entrar(Adulto visitante) {
     	boolean resultado = false;
         try {
-        	visitante.setActividadActual("ParqueAcuatico");
             getColaEspera().offer(visitante);
+            visitante.setActividadActual("ParqueAcuatico");
             imprimirColaEspera();
             semaforo.acquire();
             getColaEspera().remove(visitante);

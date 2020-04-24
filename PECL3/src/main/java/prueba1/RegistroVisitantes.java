@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RegistroVisitantes {
 	
 	private Map<String, Visitante> visitantes = new HashMap<>();
+	private Map<String, String> monitoresEnZonaActual = new ConcurrentHashMap<>();
 	private Map<String, Integer> usuariosEnZonaActual = new ConcurrentHashMap<>();
 	private Map<String, Integer> usuariosEnZonaAcumulado = new ConcurrentHashMap<>();
 	private Map<String, ArrayList<String>> usuariosEnZonaActualIds = new ConcurrentHashMap<>();
@@ -53,6 +54,18 @@ public class RegistroVisitantes {
         
 	}
 	
+	public List<String> getIdentificadoresUsuariosEnActividad(String identificadorActividad, String identificadorArea) {
+		return this.usuariosEnZonaActualIds.get(identificadorActividad+identificadorArea);
+	}
+	
+	public void aniadirMonitorEnZona(String identificadorActividad, String identificadorMonitor) {
+		monitoresEnZonaActual.put(identificadorActividad, identificadorMonitor);
+	}
+	
+	public void eliminarMonitorDeZona(String identificadorActividad) {
+		monitoresEnZonaActual.put(identificadorActividad, "");
+	}
+	
 	public void aniadirVisitanteZonaActividad(String identificadorActividad, String identificadorArea, String identificadorUsuario) {
 		int cantidadActual = this.usuariosEnZonaActual.get(identificadorActividad) + 1;
 		this.usuariosEnZonaActual.put(identificadorActividad, cantidadActual);
@@ -87,7 +100,6 @@ public class RegistroVisitantes {
 			numeroAdultos++;
 		}
 	}
-        
         
 	
 	public int getNumeroAdultos() {

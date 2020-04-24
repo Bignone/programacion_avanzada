@@ -16,7 +16,7 @@ public class Main {
         ParqueAcuatico parque = new ParqueAcuatico();
         GeneradorVisitantes generadorVisitantes = new GeneradorVisitantes(parque);
         generadorVisitantes.start();
-        ProgramaPrincipal programa = new ProgramaPrincipal();
+        ControlUsuariosJFrame programa = new ControlUsuariosJFrame();
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
