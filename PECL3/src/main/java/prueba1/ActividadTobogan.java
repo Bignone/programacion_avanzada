@@ -61,7 +61,7 @@ public class ActividadTobogan extends Actividad {
         vigilante3.start();
     }
 
-    public boolean entrar(Ninio visitante) throws InterruptedException {
+    public boolean entrar(VisitanteNinio visitante) throws InterruptedException {
         boolean resultado = false;
         try {
             visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
@@ -98,7 +98,37 @@ public class ActividadTobogan extends Actividad {
         return resultado;
     }
 
-    public boolean entrar(Adulto visitante) throws InterruptedException {
+    public boolean entrar(VisitanteAdulto visitante) throws InterruptedException {
+        boolean resultado = false;
+        try {
+            visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+            getColaEspera().offer(visitante);
+            visitante.setActividadActual(getIdentificador());
+            getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
+            getPiscinaGrande().getSemaforo().acquire();
+            imprimirColas();
+            while (visitante.getPermisoActividad() == Permiso.NO_ESPECIFICADO) {
+                visitante.sleep(500);
+            }
+
+            if (visitante.getPermisoActividad() == Permiso.PERMITIDO) {
+                meterTobogan(visitante);
+            }
+            imprimirColas();
+            resultado = true;
+        } catch (SecurityException e) {
+            getColaEspera().remove(visitante);
+            getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
+            getPiscinaGrande().getSemaforo().release();
+            imprimirColas();
+            visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+            visitante.setActividadActual("ParqueAcuatico");
+
+        }
+        return resultado;
+    }
+    
+    public boolean entrar(VisitanteMenor visitante) throws InterruptedException {
         boolean resultado = false;
         try {
             visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
@@ -128,7 +158,7 @@ public class ActividadTobogan extends Actividad {
         return resultado;
     }
 
-    public void salir(Ninio visitante) {
+    public void salir(VisitanteNinio visitante) {
         try {
             if (visitante.getTicket() == TicketTobogan.TOBOGAN_A) {
                 getZonaActividad().remove(visitante); //Tobogan A
@@ -148,10 +178,30 @@ public class ActividadTobogan extends Actividad {
         }
     }
 
-    public void salir(Adulto visitante) {
+    public void salir(VisitanteAdulto visitante) {
         try {
             getToboganC().remove(visitante);
             getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD_C,visitante.getIdentificador());
+            imprimirColas();
+            visitante.setActividadActual(getPiscinaGrande().getIdentificador());
+            getPiscinaGrande().getZonaActividad().offer(visitante);
+            getRegistro().aniadirVisitanteZonaActividad(getPiscinaGrande().getIdentificador(), ZONA_ACTIVIDAD,visitante.getIdentificador());
+            getPiscinaGrande().disfrutar(visitante);
+            getPiscinaGrande().salir(visitante);
+            visitante.setActividadActual("ParqueAcuatico");
+        } catch (Exception e) {
+        }
+    }
+    
+    public void salir(VisitanteMenor visitante) {
+        try {
+        	if (visitante.getTicket() == TicketTobogan.TOBOGAN_A) {
+                getZonaActividad().remove(visitante); //Tobogan A
+                getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD_A,visitante.getIdentificador());
+            } else {
+                getToboganB().remove(visitante);
+                getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD_B,visitante.getIdentificador());
+            }
             imprimirColas();
             visitante.setActividadActual(getPiscinaGrande().getIdentificador());
             getPiscinaGrande().getZonaActividad().offer(visitante);

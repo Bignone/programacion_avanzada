@@ -1,8 +1,8 @@
 package prueba1;
 
-public class Adulto extends Visitante {
+public class VisitanteMenor extends Visitante {
 	
-	public Adulto(String identificador, int edad, ParqueAcuatico parque) {
+	public VisitanteMenor(String identificador, int edad, ParqueAcuatico parque) {
 		super(identificador, edad, null, parque);
 	}
 	

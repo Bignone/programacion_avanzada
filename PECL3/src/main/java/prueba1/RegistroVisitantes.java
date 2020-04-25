@@ -94,7 +94,7 @@ public class RegistroVisitantes {
 
 	public void aniadirVisitante(Visitante visitante) {
 		this.visitantes.put(visitante.getIdentificador(), visitante);
-		if (visitante instanceof Ninio) {
+		if (visitante instanceof VisitanteNinio) {
 			numeroNinios++;
 		} else {
 			numeroAdultos++;

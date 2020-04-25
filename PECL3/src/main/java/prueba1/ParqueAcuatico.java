@@ -54,7 +54,7 @@ public class ParqueAcuatico {
 
     }
 
-    public boolean entrar(Ninio visitante) {
+    public boolean entrar(VisitanteNinio visitante) {
     	boolean resultado = false;
         try {
             encolarNinio(visitante);
@@ -70,7 +70,23 @@ public class ParqueAcuatico {
         return resultado;
     }
 
-    public boolean entrar(Adulto visitante) {
+    public boolean entrar(VisitanteAdulto visitante) {
+    	boolean resultado = false;
+        try {
+            getColaEspera().offer(visitante);
+            visitante.setActividadActual("ParqueAcuatico");
+            imprimirColaEspera();
+            semaforo.acquire();
+            getColaEspera().remove(visitante);
+            resultado = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            visitante.setActividadActual("Fuera");
+        }
+        return resultado;
+    }
+    
+    public boolean entrar(VisitanteMenor visitante) {
     	boolean resultado = false;
         try {
             getColaEspera().offer(visitante);
@@ -86,26 +102,33 @@ public class ParqueAcuatico {
         return resultado;
     }
 
-    public void salir(Adulto visitante) {
+    public void salir(VisitanteAdulto visitante) {
+        getColaEspera().remove(visitante);
+        imprimirColaEspera();
+        semaforo.release();
+        visitante.setActividadActual("Fuera");
+    }
+    
+    public void salir(VisitanteMenor visitante) {
         getColaEspera().remove(visitante);
         imprimirColaEspera();
         semaforo.release();
         visitante.setActividadActual("Fuera");
     }
 
-    public void salir(Ninio visitante) {
+    public void salir(VisitanteNinio visitante) {
         desencolarNinioColaEspera(visitante);
         imprimirColaEspera();
-        semaforo.release();
+        semaforo.release(2);
         visitante.setActividadActual("Fuera");
     }
 
-    public synchronized void encolarNinio(Ninio visitante) {
+    public synchronized void encolarNinio(VisitanteNinio visitante) {
         getColaEspera().offer(visitante);
         getColaEspera().offer(visitante.getAcompaniante());
     }
 
-    public synchronized void desencolarNinioColaEspera(Ninio visitante) {
+    public synchronized void desencolarNinioColaEspera(VisitanteNinio visitante) {
         getColaEspera().remove(visitante);
         getColaEspera().remove(visitante.getAcompaniante());
     }

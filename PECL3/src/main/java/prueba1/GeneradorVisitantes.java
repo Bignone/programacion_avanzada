@@ -15,21 +15,30 @@ public class GeneradorVisitantes extends Thread {
 		return edad < 11;
 	}
 	
-	public Acompaniante crearAcompannante(int idHijo, int contador) {
+	private boolean esMenor(int edad) {
+		return edad >= 11 && edad <= 17;
+	}
+	
+	public VisitanteAcompaniante crearAcompannante(int idHijo, int contador) {
 		int edad = (int) (32 * Math.random() + 18);
 		String identificador = "ID" + contador + "-" + edad + "-" + idHijo;
-		return new Acompaniante(identificador, edad, parque);
+		return new VisitanteAcompaniante(identificador, edad, parque);
 	}
 	
-	public Adulto crearAdulto(int contador, int edad) {
+	public VisitanteAdulto crearAdulto(int contador, int edad) {
 		String identificador = "ID" + contador + "-" + edad;
-		return new Adulto(identificador, edad, parque);
+		return new VisitanteAdulto(identificador, edad, parque);
 	}
 	
-	public Ninio crearNinio(int contador, int edad) {
+	public VisitanteMenor crearMenor(int contador, int edad) {
+		String identificador = "ID" + contador + "-" + edad;
+		return new VisitanteMenor(identificador, edad, parque);
+	}
+	
+	public VisitanteNinio crearNinio(int contador, int edad) {
 		String identificador = "ID" + contador + "-" + edad + "-" + (contador+1);
-		Acompaniante acompaniante = crearAcompannante(contador, contador+1);
-		return new Ninio(identificador, edad, acompaniante, parque);
+		VisitanteAcompaniante acompaniante = crearAcompannante(contador, contador+1);
+		return new VisitanteNinio(identificador, edad, acompaniante, parque);
 	}
 	
 	public void run() {
@@ -43,15 +52,22 @@ public class GeneradorVisitantes extends Thread {
 				int edad = (int) (49 * Math.random() +1);
 				String identificador;
 				Visitante visitante;
-				Acompaniante acompaniante = null;
-				if (necesitaAcompanniante(edad)) {
-					identificador = "ID" + contador + "-" + edad + "-" + (contador+1);
-					acompaniante = crearAcompannante(contador, contador+1);
-					contador++;
-					visitante = new Ninio(identificador, edad, acompaniante, parque);
+				VisitanteAcompaniante acompaniante = null;
+				if (esMenor(edad)) {
+					if (necesitaAcompanniante(edad)) {
+						identificador = "ID" + contador + "-" + edad + "-" + (contador+1);
+						acompaniante = crearAcompannante(contador, contador+1);
+						contador++;
+						visitante = new VisitanteNinio(identificador, edad, acompaniante, parque);
+					}
+					else {
+						identificador = "ID" + contador + "-" + edad;
+						visitante = new VisitanteMenor(identificador, edad, parque);
+				}
+				
 				} else {
 					identificador = "ID" + contador + "-" + edad;
-					visitante = new Adulto(identificador, edad, parque);
+					visitante = new VisitanteAdulto(identificador, edad, parque);
 				}
 				registro.aniadirVisitante(visitante);
 				System.out.println("Starting visitante: " + visitante.toString());

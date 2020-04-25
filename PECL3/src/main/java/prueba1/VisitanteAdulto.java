@@ -1,9 +1,9 @@
 package prueba1;
 
-public class Ninio extends Visitante {
+public class VisitanteAdulto extends Visitante {
 	
-	public Ninio(String identificador, int edad, Acompaniante acompaniante, ParqueAcuatico parque) {
-		super(identificador, edad, acompaniante, parque);
+	public VisitanteAdulto(String identificador, int edad, ParqueAcuatico parque) {
+		super(identificador, edad, null, parque);
 	}
 	
 	public void run() {
@@ -18,7 +18,7 @@ public class Ninio extends Visitante {
 				
 				for (Actividad actividad: getActividades()) {
 					System.out.println("Entrando a la actividad "+getIdentificador()+": " + actividad.toString());
-					boolean dentro = actividad.entrar(this);				
+					boolean dentro = actividad.entrar(this);
 					if (dentro) {
 						actividad.disfrutar(this);
 						actividad.salir(this);
@@ -29,6 +29,7 @@ public class Ninio extends Visitante {
 				System.out.println("Saliendo del parque: " + toString());
 				getParque().salir(this);
 			}
+			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

@@ -46,7 +46,7 @@ public class ActividadVestuario extends Actividad {
     	System.out.println("******************************");
     }
 
-    public boolean entrar(Ninio visitante) throws InterruptedException {
+    public boolean entrar(VisitanteNinio visitante) throws InterruptedException {
         boolean resultado = false;
         try {
             visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
@@ -81,7 +81,7 @@ public class ActividadVestuario extends Actividad {
         return resultado;
     }
 
-    public boolean entrar(Adulto visitante) throws InterruptedException {
+    public boolean entrar(VisitanteAdulto visitante) throws InterruptedException {
         boolean resultado = false;
         try {
         	
@@ -112,20 +112,60 @@ public class ActividadVestuario extends Actividad {
         }
         return resultado;
     }
+    
+    public boolean entrar(VisitanteMenor visitante) throws InterruptedException {
+        boolean resultado = false;
+        try {
+        	
+            visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+            getColaEspera().offer(visitante);
+            visitante.setActividadActual(getIdentificador());
+            getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
+            imprimirColas();
+            getSemaforo().acquire();
+            while (visitante.getPermisoActividad() == Permiso.NO_ESPECIFICADO) {
+                visitante.sleep(500);
+            }
+            getColaEspera().remove(visitante);
+            getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
+            getZonaActividad().offer(visitante);
+            getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD,visitante.getIdentificador());
+            imprimirZonaActividadAdultos();
+            resultado = true;
+
+        } catch (SecurityException e) {
+            getColaEspera().remove(visitante);
+            getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
+            getSemaforo().release();
+            visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+            visitante.setActividadActual("ParqueAcuatico");
+            imprimirColas();
+
+        }
+        return resultado;
+    }
 
     private void imprimirZonaActividadAdultos() {
         System.out.println("La actividad: " + getIdentificador() + " tiene una cola de adultos: " + zonaActividadAdultos.toString());
     }
 
-    public void salir(Adulto visitante) {
+    public void salir(VisitanteAdulto visitante) {
     	getZonaActividadAdultos().remove(visitante);
         getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD_ADULTOS,visitante.getIdentificador());
         getSemaforo().release();
         visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
         visitante.setActividadActual("ParqueAcuatico");
     }
+    
+    public void salir(VisitanteMenor visitante) {
+    	getZonaActividad().remove(visitante);
+        getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD,visitante.getIdentificador());
+        getSemaforo().release();
+        visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+        visitante.setActividadActual("ParqueAcuatico");
+    }
 
-    public void salir(Ninio visitante) {
+    public void salir(VisitanteNinio visitante) {
         if (visitante.getPermisoActividad() == Permiso.CON_ACOMPANIANTE) {
             desencolarNinio(visitante);
         } else {

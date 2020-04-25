@@ -37,7 +37,7 @@ public class ActividadPiscinaOlas extends Actividad {
         return (long) ((int) (2000) + (3000 * Math.random()));
     }
 
-    public boolean entrar(Ninio visitante) {
+    public boolean entrar(VisitanteNinio visitante) {
         boolean resultado = false;
         int espaciosOcupados = 2;
         try {
@@ -78,7 +78,44 @@ public class ActividadPiscinaOlas extends Actividad {
         return resultado;
     }
 
-    public boolean entrar(Adulto visitante) throws InterruptedException {
+    public boolean entrar(VisitanteAdulto visitante) throws InterruptedException {
+        boolean resultado = false;
+        try {
+            visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+            getColaEspera().offer(visitante);
+            visitante.setActividadActual(getIdentificador());
+            getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), COLA_ESPERA, visitante.getIdentificador());
+            imprimirColas();
+            getSemaforo().acquire();
+
+            while (visitante.getPermisoActividad() == Permiso.NO_ESPECIFICADO) {
+                visitante.sleep(500);
+            }
+
+            if (visitante.getPermisoActividad() != Permiso.PERMITIDO) {
+                throw new SecurityException();
+            }
+            barrera.await();
+            getColaEspera().remove(visitante);
+            getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
+            getZonaActividad().offer(visitante);
+            getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD,visitante.getIdentificador());
+
+
+            resultado = true;
+
+        } catch (SecurityException | BrokenBarrierException e) {
+            getColaEspera().remove(visitante);
+            getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
+            getSemaforo().release();
+            visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+            visitante.setActividadActual("ParqueAcuatico");
+            imprimirColas();
+        }
+        return resultado;
+    }
+    
+    public boolean entrar(VisitanteMenor visitante) throws InterruptedException {
         boolean resultado = false;
         try {
             visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);

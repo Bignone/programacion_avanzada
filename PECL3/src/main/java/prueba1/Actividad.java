@@ -80,7 +80,7 @@ public class Actividad {
         System.out.println("******************************");
     }
 
-    public synchronized void encolarNinio(Ninio visitante) {
+    public synchronized void encolarNinio(VisitanteNinio visitante) {
         getColaEspera().offer(visitante);
         getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
         getColaEspera().offer(visitante.getAcompaniante());
@@ -89,14 +89,14 @@ public class Actividad {
     	visitante.getAcompaniante().setActividadActual(getIdentificador());
     }
 
-    public synchronized void desencolarNinioColaEspera(Ninio visitante) {
+    public synchronized void desencolarNinioColaEspera(VisitanteNinio visitante) {
         getColaEspera().remove(visitante);
         getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
         getColaEspera().remove(visitante.getAcompaniante());
         getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getAcompaniante().getIdentificador());
     }
 
-    public synchronized void encolarNinioActividad(Ninio visitante) {
+    public synchronized void encolarNinioActividad(VisitanteNinio visitante) {
         getColaEspera().remove(visitante);
         getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
         getColaEspera().remove(visitante.getAcompaniante());
@@ -107,7 +107,7 @@ public class Actividad {
         getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD,visitante.getAcompaniante().getIdentificador());
     }
 
-    public synchronized void desencolarNinio(Ninio visitante) {
+    public synchronized void desencolarNinio(VisitanteNinio visitante) {
         getZonaActividad().remove(visitante);
         getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD,visitante.getIdentificador());
         getZonaActividad().remove(visitante.getAcompaniante());
@@ -118,7 +118,7 @@ public class Actividad {
     
     
 
-    public boolean entrar(Ninio visitante) throws InterruptedException {
+    public boolean entrar(VisitanteNinio visitante) throws InterruptedException {
         boolean resultado = false;
         int espaciosOcupados = 2;
         try {
@@ -157,7 +157,43 @@ public class Actividad {
         return resultado;
     }
 
-    public boolean entrar(Adulto visitante) throws InterruptedException {
+    public boolean entrar(VisitanteAdulto visitante) throws InterruptedException {
+        boolean resultado = false;
+        try {
+            visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+            getColaEspera().offer(visitante);
+            visitante.setActividadActual(getIdentificador());
+            getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
+            imprimirColas();
+            getSemaforo().acquire();
+
+            while (visitante.getPermisoActividad() == Permiso.NO_ESPECIFICADO) {
+                visitante.sleep(500);
+            }
+
+            if (visitante.getPermisoActividad() != Permiso.PERMITIDO) {
+                throw new SecurityException();
+            }
+            
+            getColaEspera().remove(visitante);
+            getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
+            getZonaActividad().offer(visitante);
+            getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD,visitante.getIdentificador());
+            resultado = true;
+
+        } catch (SecurityException e) {
+            getColaEspera().remove(visitante);
+            getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
+            getSemaforo().release();
+            visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+            imprimirColas();
+            visitante.setActividadActual("ParqueAcuatico");
+
+        }
+        return resultado;
+    }
+    
+    public boolean entrar(VisitanteMenor visitante) throws InterruptedException {
         boolean resultado = false;
         try {
             visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
@@ -198,7 +234,7 @@ public class Actividad {
             imprimirColas();
             visitante.sleep(getTiempoActividad());
         } catch (InterruptedException e) { 
-            if (visitante instanceof Ninio) {
+            if (visitante instanceof VisitanteNinio) {
                 getZonaActividad().remove(visitante);
                 getZonaActividad().remove(visitante.getAcompaniante());
                 getSemaforo().release(2);
@@ -210,7 +246,19 @@ public class Actividad {
         }
     }
 
-    public void salir(Adulto visitante) {
+    public void salir(VisitanteAdulto visitante) {
+        try{
+	        getZonaActividad().remove(visitante);
+	        getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD,visitante.getIdentificador());
+	        getSemaforo().release();
+	        visitante.setPermisoActividad(Permiso.NO_ESPECIFICADO);
+	        imprimirColas();
+	        visitante.setActividadActual("ParqueAcuatico");
+        } catch(Exception e){
+        }
+    }
+    
+    public void salir(VisitanteMenor visitante) {
         try{
 	        getZonaActividad().remove(visitante);
 	        getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD,visitante.getIdentificador());
@@ -222,7 +270,7 @@ public class Actividad {
         }
     }
 
-    public void salir(Ninio visitante) {
+    public void salir(VisitanteNinio visitante) {
         try{
         if (visitante.getPermisoActividad() == Permiso.CON_ACOMPANIANTE) {
             desencolarNinio(visitante);

@@ -25,7 +25,7 @@ public class VigilantePiscinaGrande extends Vigilante {
 
     public Permiso tipoPermiso(Visitante visitante) {
         Permiso tipoPermiso = Permiso.PERMITIDO;
-        if (visitante instanceof Ninio) {
+        if (visitante instanceof VisitanteNinio) {
             tipoPermiso = Permiso.CON_ACOMPANIANTE;
         }
         return tipoPermiso;
@@ -38,7 +38,7 @@ public class VigilantePiscinaGrande extends Vigilante {
         List<Visitante> visitantes = new ArrayList<>();
         iterator.forEachRemaining(visitantes::add);
         visitante = visitantes.get(n);
-        if (visitante instanceof Acompaniante) {
+        if (visitante instanceof VisitanteAcompaniante) {
             visitante = visitantes.get(n - 1);
         }
         return visitante;
