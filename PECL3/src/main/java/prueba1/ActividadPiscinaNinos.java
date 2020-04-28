@@ -20,7 +20,7 @@ public class ActividadPiscinaNinos extends Actividad {
 
     public Vigilante iniciarVigilante() {
         Vigilante vigilante = new VigilantePiscinaNinos("VigilantePiscinaNinos", getColaEspera());
-    	getRegistro().aniadirMonitorEnZona(getIdentificador(), vigilante.getIdentificador());
+    	getRegistro().aniadirMonitorEnZona(getIdentificador(), "-monitor", vigilante.getIdentificador());
         return vigilante;
     }
 

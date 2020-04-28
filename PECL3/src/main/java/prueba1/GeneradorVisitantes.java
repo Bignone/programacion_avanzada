@@ -2,7 +2,7 @@ package prueba1;
 
 public class GeneradorVisitantes extends Thread {
 	
-	private static int NUM_VISITANTES = 20;
+	private static int NUM_VISITANTES = 5000;
 	private ParqueAcuatico parque;
 	private RegistroVisitantes registro;
 	
@@ -12,11 +12,11 @@ public class GeneradorVisitantes extends Thread {
 	}
 	
 	private boolean necesitaAcompanniante(int edad) {
-		return edad < 11;
+		return edad <= 10;
 	}
 	
 	private boolean esMenor(int edad) {
-		return edad >= 11 && edad <= 17;
+		return edad >= 1 && edad <= 17;
 	}
 	
 	public VisitanteAcompaniante crearAcompannante(int idHijo, int contador) {

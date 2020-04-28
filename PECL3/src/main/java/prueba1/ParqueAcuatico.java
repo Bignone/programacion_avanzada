@@ -8,15 +8,19 @@ import java.util.concurrent.Semaphore;
 
 public class ParqueAcuatico {
 
-    private static int NUM_VISITANTES = 20;
+	private String identificador = "ParqueAcuatico";
+	private static int NUM_VISITANTES = 100;
     private Semaphore semaforo = new Semaphore(NUM_VISITANTES, true);
     private List<Actividad> actividades = new ArrayList<>();
     private BlockingQueue<Visitante> colaEspera = new ArrayBlockingQueue<>(5000, true);
-    private RegistroVisitantes registro = new RegistroVisitantes();
+    private static final String COLA_ESPERA = "-colaEspera";
+    private RegistroVisitantes registro;
     private ActividadPiscinaGrande piscinaGrande;
 
-    public ParqueAcuatico() {
+    public ParqueAcuatico(RegistroVisitantes registro) {
+        this.registro = registro;
         iniciarActividades();
+        registrarZonaActividad();
     }
     
     public void iniciarActividades() {
@@ -32,6 +36,18 @@ public class ParqueAcuatico {
     public RegistroVisitantes getRegistro() {
 		return registro;
 	}
+    
+    public List<String> getAreasActividad() {
+        ArrayList<String> areas = new ArrayList<>();
+        areas.add(COLA_ESPERA);
+        return areas;
+    }
+
+    public void registrarZonaActividad() {
+        this.registro.registrarZonaActividad(identificador);
+        this.registro.registrarZonasActividad(identificador, getAreasActividad());
+
+    }
 
     public List<Actividad> escogerActividades(int cantidad) {
         List<Actividad> actividadesEscogidas = new ArrayList<>();
@@ -39,6 +55,7 @@ public class ParqueAcuatico {
             cantidad = actividades.size();
         }
         actividadesEscogidas.add(actividades.get(0));
+        //actividadesEscogidas.add(actividades.get(5));
 
         while (cantidad > 0) {
             int indice_random = (int) (actividades.size() * Math.random());
@@ -58,13 +75,15 @@ public class ParqueAcuatico {
     	boolean resultado = false;
         try {
             encolarNinio(visitante);
-            visitante.setActividadActual("ParqueAcuatico");
+            visitante.setActividadActual(identificador);
             imprimirColaEspera();
+            //visitante.sleep(500);
             semaforo.acquire(2);
             desencolarNinioColaEspera(visitante);
             resultado = true;
         } catch (Exception e) {
             e.printStackTrace();
+            desencolarNinioColaEspera(visitante);
             visitante.setActividadActual("Fuera");
         }
         return resultado;
@@ -74,13 +93,17 @@ public class ParqueAcuatico {
     	boolean resultado = false;
         try {
             getColaEspera().offer(visitante);
-            visitante.setActividadActual("ParqueAcuatico");
+            getRegistro().aniadirVisitanteZonaActividad(identificador, COLA_ESPERA,visitante.getIdentificador());
+            visitante.setActividadActual(identificador);
             imprimirColaEspera();
+            //visitante.sleep(500);
             semaforo.acquire();
             getColaEspera().remove(visitante);
+            getRegistro().eliminarVisitanteZonaActividad(identificador, COLA_ESPERA, visitante.getIdentificador());
             resultado = true;
         } catch (Exception e) {
             e.printStackTrace();
+            getRegistro().eliminarVisitanteZonaActividad(identificador, COLA_ESPERA, visitante.getIdentificador());
             visitante.setActividadActual("Fuera");
         }
         return resultado;
@@ -90,13 +113,17 @@ public class ParqueAcuatico {
     	boolean resultado = false;
         try {
             getColaEspera().offer(visitante);
-            visitante.setActividadActual("ParqueAcuatico");
+            getRegistro().aniadirVisitanteZonaActividad(identificador, COLA_ESPERA,visitante.getIdentificador());
+            visitante.setActividadActual(identificador);
             imprimirColaEspera();
+            //visitante.sleep(500);
             semaforo.acquire();
             getColaEspera().remove(visitante);
+            getRegistro().eliminarVisitanteZonaActividad(identificador, COLA_ESPERA, visitante.getIdentificador());
             resultado = true;
         } catch (Exception e) {
             e.printStackTrace();
+            getRegistro().eliminarVisitanteZonaActividad(identificador, COLA_ESPERA, visitante.getIdentificador());
             visitante.setActividadActual("Fuera");
         }
         return resultado;
@@ -122,17 +149,21 @@ public class ParqueAcuatico {
         semaforo.release(2);
         visitante.setActividadActual("Fuera");
     }
-
+    
     public synchronized void encolarNinio(VisitanteNinio visitante) {
         getColaEspera().offer(visitante);
+        getRegistro().aniadirVisitanteZonaActividad(identificador, COLA_ESPERA,visitante.getIdentificador());
         getColaEspera().offer(visitante.getAcompaniante());
+        getRegistro().aniadirVisitanteZonaActividad(identificador, COLA_ESPERA,visitante.getAcompaniante().getIdentificador());
     }
 
     public synchronized void desencolarNinioColaEspera(VisitanteNinio visitante) {
         getColaEspera().remove(visitante);
+        getRegistro().eliminarVisitanteZonaActividad(identificador, COLA_ESPERA, visitante.getIdentificador());
         getColaEspera().remove(visitante.getAcompaniante());
+        getRegistro().eliminarVisitanteZonaActividad(identificador, COLA_ESPERA, visitante.getAcompaniante().getIdentificador());
     }
-
+    
     private void imprimirColaEspera() {
         
     }

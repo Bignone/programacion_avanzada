@@ -16,16 +16,15 @@ public class ActividadTobogan extends Actividad {
     private Vigilante vigilante3;
     private static final String COLA_ESPERA = "-colaEspera";
     private static final String ZONA_ACTIVIDAD = "-zonaActividad";
-    private static final String ZONA_ACTIVIDAD_A = "-zonaActividadA";
     private static final String ZONA_ACTIVIDAD_B = "-zonaActividadB";
     private static final String ZONA_ACTIVIDAD_C = "-zonaActividadC";
-    private static final String ZONA_ESPERA = "-zonaEsperaAcompanante";
+    private static final String ZONA_ESPERA = "-zonaEsperaAcompaniante";
 
     public ActividadTobogan(RegistroVisitantes registro, ActividadPiscinaGrande piscinaGrande) {
         super(IDENTIFICADOR, CAPACIDAD, registro);
         this.piscinaGrande = piscinaGrande;
-        this.vigilante2 = iniciarVigilante("VigilanteToboganB");
-        this.vigilante3 = iniciarVigilante("VigilanteToboganC");
+        this.vigilante2 = iniciarVigilante("VigilanteToboganB", getIdentificador()+"B");
+        this.vigilante3 = iniciarVigilante("VigilanteToboganC", getIdentificador()+"C");
         iniciarVigilantes();
     }
     
@@ -33,7 +32,6 @@ public class ActividadTobogan extends Actividad {
     	ArrayList<String> areas = new ArrayList<>();
     	areas.add(COLA_ESPERA);
     	areas.add(ZONA_ACTIVIDAD);
-    	areas.add(ZONA_ACTIVIDAD_A);
     	areas.add(ZONA_ACTIVIDAD_B);
     	areas.add(ZONA_ACTIVIDAD_C);
     	areas.add(ZONA_ESPERA);
@@ -42,13 +40,13 @@ public class ActividadTobogan extends Actividad {
 
     public Vigilante iniciarVigilante() {
     	Vigilante vigilante =  new VigilanteTobogan("VigilanteToboganA", getColaEspera());
-    	getRegistro().aniadirMonitorEnZona(getIdentificador(), vigilante.getIdentificador());
+    	getRegistro().aniadirMonitorEnZona(getIdentificador(), "-monitor", vigilante.getIdentificador());
         return vigilante;
     }
     
-    public Vigilante iniciarVigilante(String identificador) {
+    public Vigilante iniciarVigilante(String identificador,String identificadorActividad) {
     	Vigilante vigilante =  new VigilanteTobogan(identificador, getColaEspera());
-    	getRegistro().aniadirMonitorEnZona(getIdentificador(), vigilante.getIdentificador());
+    	getRegistro().aniadirMonitorEnZona(identificadorActividad, "-monitor", vigilante.getIdentificador());
         return vigilante;
     }
 
@@ -60,7 +58,7 @@ public class ActividadTobogan extends Actividad {
         vigilante2.start();
         vigilante3.start();
     }
-
+    
     public boolean entrar(VisitanteNinio visitante) throws InterruptedException {
         boolean resultado = false;
         try {
@@ -70,7 +68,7 @@ public class ActividadTobogan extends Actividad {
             getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
             visitante.setActividadActual(getIdentificador());
             visitante.getAcompaniante().setActividadActual(getIdentificador());
-            getPiscinaGrande().getZonaEsperaAcompanante().offer(visitante.getAcompaniante());
+            getPiscinaGrande().getZonaEsperaAcompanante().offer(visitante.getAcompaniante()); // se van a la zona de espera de la piscina para que no les den permiso y se tiren por el tobogan
             getRegistro().aniadirVisitanteZonaActividad(getPiscinaGrande().getIdentificador(), ZONA_ESPERA,visitante.getAcompaniante().getIdentificador());
             getPiscinaGrande().getSemaforo().acquire();
             imprimirColas();
@@ -80,7 +78,7 @@ public class ActividadTobogan extends Actividad {
 
             if (visitante.getPermisoActividad() == Permiso.PERMITIDO) {
                 meterTobogan(visitante);
-            } else if (visitante.getPermisoActividad() == Permiso.NO_PERMITIDO) {
+            } else {
                 throw new SecurityException();
             }
             imprimirColas();
@@ -162,7 +160,7 @@ public class ActividadTobogan extends Actividad {
         try {
             if (visitante.getTicket() == TicketTobogan.TOBOGAN_A) {
                 getZonaActividad().remove(visitante); //Tobogan A
-                getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD_A,visitante.getIdentificador());
+                getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD,visitante.getIdentificador());
             } else {
                 getToboganB().remove(visitante);
                 getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD_B,visitante.getIdentificador());
@@ -197,7 +195,7 @@ public class ActividadTobogan extends Actividad {
         try {
         	if (visitante.getTicket() == TicketTobogan.TOBOGAN_A) {
                 getZonaActividad().remove(visitante); //Tobogan A
-                getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD_A,visitante.getIdentificador());
+                getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD,visitante.getIdentificador());
             } else {
                 getToboganB().remove(visitante);
                 getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD_B,visitante.getIdentificador());
@@ -217,16 +215,23 @@ public class ActividadTobogan extends Actividad {
         getColaEspera().remove(visitante);
         getRegistro().eliminarVisitanteZonaActividad(getIdentificador(), COLA_ESPERA,visitante.getIdentificador());
         if (visitante.getTicket() == TicketTobogan.TOBOGAN_A) {
-            getZonaActividad().offer(visitante); //Tobogan A
+            while (!getZonaActividad().offer(visitante)) {
+            	// esperar al tobogan vacio
+            }
             visitante.setActividadActual("ToboganA");
-            getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD_A, visitante.getIdentificador());
+            getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD, visitante.getIdentificador());
+            
         } else if (visitante.getTicket() == TicketTobogan.TOBOGAN_B) {
-            getToboganB().offer(visitante);
-            visitante.setActividadActual("ToboganB");
+        	while (!getToboganB().offer(visitante)) {
+        		// esperar al tobogan vacio
+            }
+        	visitante.setActividadActual("ToboganB");
             getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD_B, visitante.getIdentificador());
         } else {
-            getToboganC().offer(visitante);
-            visitante.setActividadActual("ToboganC");
+        	while (!getToboganC().offer(visitante)) {
+        		// esperar al tobogan vacio
+        	}
+        	visitante.setActividadActual("ToboganC");
             getRegistro().aniadirVisitanteZonaActividad(getIdentificador(), ZONA_ACTIVIDAD_C, visitante.getIdentificador());
         }
     }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActividadPiscinaNinosTest {
-	
 	public static void main(String[] args) {
+                
 		ParqueAcuatico parque = new ParqueAcuatico();
 		List<Actividad> actividades = new ArrayList<>();
 		actividades.add(new ActividadPiscinaNinos(parque.getRegistro()));

@@ -72,11 +72,11 @@ public class ControlClienteJFrame extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 255));
 
-        jLabel2.setText("CONTROL DE UBICACI√ìN");
+        jLabel2.setText("CONTROL DE UBICACI”N");
 
         jLabel3.setText("Usuario");
 
-        jLabel4.setText("Ubicaci√≥n");
+        jLabel4.setText("UbicaciÛn");
 
         jLabel5.setText("Actividades");
 
@@ -150,13 +150,13 @@ public class ControlClienteJFrame extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 255));
-        jLabel1.setText("PARQUE ACU√ÅTICO");
+        jLabel1.setText("PARQUE ACU¡TICO");
 
         jPanel3.setBackground(new java.awt.Color(255, 204, 255));
 
         jLabel6.setText("CONTROL DE MENORES");
 
-        jLabel7.setText("N√∫mero de menores");
+        jLabel7.setText("N˙mero de menores");
 
         jTextField4.setEditable(false);
 
@@ -213,11 +213,11 @@ public class ControlClienteJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("Togog√°n A");
+        jLabel9.setText("Togog·n A");
 
-        jLabel10.setText("Tobog√°n B");
+        jLabel10.setText("Tobog·n B");
 
-        jLabel11.setText("Tobog√°n C");
+        jLabel11.setText("Tobog·n C");
 
         jTextField5.setEditable(false);
 
@@ -287,7 +287,7 @@ public class ControlClienteJFrame extends javax.swing.JFrame {
 
         jLabel15.setText("Tumbonas");
 
-        jLabel16.setText("Piscina ni√±os");
+        jLabel16.setText("Piscina niÒos");
 
         jLabel17.setText("Toboganes");
 

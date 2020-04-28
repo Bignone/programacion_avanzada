@@ -35,7 +35,10 @@ public class ActividadVestuario extends Actividad {
     }
 
     public Vigilante iniciarVigilante() {
-        return new VigilanteVestuario("VigilanteVestuarios", getColaEspera());
+        Vigilante vigilante = new VigilanteVestuario("VigilanteVestuarios", getColaEspera());
+    	getRegistro().aniadirMonitorEnZona(getIdentificador(), "-monitor", vigilante.getIdentificador());
+        return vigilante;
+        
     }
     
     public void imprimirColas() {

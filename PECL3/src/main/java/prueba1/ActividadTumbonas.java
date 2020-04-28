@@ -16,7 +16,9 @@ public class ActividadTumbonas extends Actividad {
     }
 	
 	public Vigilante iniciarVigilante() {
-    	return new VigilanteTumbonas("VigilanteTumbonas", getColaEspera());
+        Vigilante vigilante = new VigilanteTumbonas("VigilanteTumbonas", getColaEspera());
+    	getRegistro().aniadirMonitorEnZona(getIdentificador(), "-monitor", vigilante.getIdentificador());
+        return vigilante;
     }
 
 }

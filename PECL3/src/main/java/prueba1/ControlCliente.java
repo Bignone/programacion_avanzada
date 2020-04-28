@@ -38,7 +38,7 @@ public class ControlCliente {
 	public ArrayList<String> controlToboganes() {
 		// returns [tobogan_a, tobogan_b, tobogan_c]
 		ArrayList<String> resultado = new ArrayList<>();
-		resultado.add(registroRemoto.getIdentificadoresUsuariosEnActividad("ActividadTobogan", "-zonaActividadA").get(0));
+		resultado.add(registroRemoto.getIdentificadoresUsuariosEnActividad("ActividadTobogan", "-zonaActividad").get(0));
 		resultado.add(registroRemoto.getIdentificadoresUsuariosEnActividad("ActividadTobogan", "-zonaActividadB").get(0));
 		resultado.add(registroRemoto.getIdentificadoresUsuariosEnActividad("ActividadTobogan", "-zonaActividadC").get(0));
 		return resultado;
